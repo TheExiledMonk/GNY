@@ -1,0 +1,220 @@
+<!-- Gather Plugin Config UI Template -->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Gather Plugin Configuration</title>
+  <style>
+    body { font-family: sans-serif; margin: 2em; }
+    .dual-listbox { display: flex; gap: 2em; align-items: flex-start; }
+    .dual-listbox > div { min-width: 220px; }
+    select { width: 100%; min-width: 200px; }
+    .actions { display: flex; flex-direction: column; gap: 1em; justify-content: center; }
+    .debug { background: #fff7e6; border: 1px solid #e6c200; padding: 1em; margin-top: 2em; }
+    .debug pre { background: #f6f8fb; padding: 0.7em; border-radius: 6px; overflow-x: auto; font-size: 0.97em; }
+  </style>
+</head>
+<body>
+  <h2>Gather Plugin Configuration</h2>
+  <form method="post" id="config-form">
+    <!-- Exchanges Dual List -->
+    <div class="dual-listbox">
+      <div>
+        <label>Available Exchanges</label><br>
+        <input type="text" id="search-exchanges" placeholder="Search exchanges..." style="width:100%;margin-bottom:0.3em;padding:0.2em;">
+        <select id="exchanges-available" multiple size="12">
+          {% for ex in all_exchanges if ex not in config.exchanges %}
+            <option value="{{ ex }}">{{ ex }}</option>
+          {% endfor %}
+        </select>
+        <div style="font-size:0.95em;color:#666;margin-top:0.3em;">Count: {{ all_exchanges|length - config.exchanges|length }}</div>
+      </div>
+      <div class="actions">
+        <button type="button" id="add-exchange" style="width:2em;height:2em;padding:0;">→</button>
+        <button type="button" id="remove-exchange" style="width:2em;height:2em;padding:0;">←</button>
+      </div>
+      <div>
+        <label>Selected Exchanges</label><br>
+        <select id="exchanges-selected" name="exchanges" multiple size="12">
+          {% for ex in config.exchanges %}
+            <option value="{{ ex }}">{{ ex }}</option>
+          {% endfor %}
+        </select>
+        <div style="font-size:0.95em;color:#666;margin-top:0.3em;">Count: {{ config.exchanges|length }}</div>
+      </div>
+    </div>
+    <!-- Tokens Dual List -->
+    <div class="dual-listbox" style="margin-top:2em;">
+      <div>
+        <label>Available Tokens</label><br>
+        <input type="text" id="search-tokens" placeholder="Search tokens..." style="width:100%;margin-bottom:0.3em;padding:0.2em;">
+        <select id="tokens-available" multiple size="12">
+          {% for token in all_tokens if token not in config.tokens %}
+            <option value="{{ token }}">{{ token }}</option>
+          {% endfor %}
+        </select>
+        <div style="font-size:0.95em;color:#666;margin-top:0.3em;">Count: {{ all_tokens|length - config.tokens|length }}</div>
+      </div>
+      <div class="actions">
+        <button type="button" id="add-token" style="width:2em;height:2em;padding:0;">→</button>
+        <button type="button" id="remove-token" style="width:2em;height:2em;padding:0;">←</button>
+      </div>
+      <div>
+        <label>Selected Tokens</label><br>
+        <select id="tokens-selected" name="tokens" multiple size="12">
+          {% for token in config.tokens %}
+            <option value="{{ token }}">{{ token }}</option>
+          {% endfor %}
+        </select>
+        <div style="font-size:0.95em;color:#666;margin-top:0.3em;">Count: {{ config.tokens|length }}</div>
+      </div>
+    </div>
+    <!-- Stablecoins Dual List -->
+    <div class="dual-listbox" style="margin-top:2em;">
+      <div>
+        <label>Available Stablecoins</label><br>
+        <input type="text" id="search-stablecoins" placeholder="Search stablecoins..." style="width:100%;margin-bottom:0.3em;padding:0.2em;">
+        <select id="stablecoins-available" multiple size="12">
+          {% for coin in all_stablecoins if coin not in config.stablecoins %}
+            <option value="{{ coin }}">{{ coin }}</option>
+          {% endfor %}
+        </select>
+        <div style="font-size:0.95em;color:#666;margin-top:0.3em;">Count: {{ all_stablecoins|length - config.stablecoins|length }}</div>
+      </div>
+      <div class="actions">
+        <button type="button" id="add-stablecoin" style="width:2em;height:2em;padding:0;">→</button>
+        <button type="button" id="remove-stablecoin" style="width:2em;height:2em;padding:0;">←</button>
+      </div>
+      <div>
+        <label>Selected Stablecoins</label><br>
+        <select id="stablecoins-selected" name="stablecoins" multiple size="12">
+          {% for coin in config.stablecoins %}
+            <option value="{{ coin }}">{{ coin }}</option>
+          {% endfor %}
+        </select>
+        <div style="font-size:0.95em;color:#666;margin-top:0.3em;">Count: {{ config.stablecoins|length }}</div>
+      </div>
+    </div>
+    <!-- Base stablecoin and intervals -->
+    <div style="margin-top:2em; display: flex; gap: 3em; align-items: flex-end;">
+      <div>
+        <label for="base_stablecoin">Base Stablecoin</label><br>
+        <select id="base_stablecoin" name="base_stablecoin">
+          <option value="">-- Select --</option>
+          {% for coin in all_stablecoins %}
+            <option value="{{ coin }}" {% if config.base_stablecoin == coin %}selected{% endif %}>{{ coin }}</option>
+          {% endfor %}
+        </select>
+      </div>
+      <div>
+        <label for="intervals">Intervals (comma separated)</label><br>
+        <input type="text" id="intervals" name="intervals" style="min-width:250px;" value="{{ intervals_str }}">
+      </div>
+    </div>
+    <div style="margin-top:2em; display: flex; gap: 3em; align-items: flex-end;">
+      <div>
+        <label for="exchange_database">Exchange Database</label><br>
+        <input type="text" id="exchange_database" name="exchange_database" style="min-width:250px;" value="{{ config.exchange_database }}">
+      </div>
+      <div>
+        <label for="indicator_database">Indicator Database</label><br>
+        <input type="text" id="indicator_database" name="indicator_database" style="min-width:250px;" value="{{ config.indicator_database }}">
+      </div>
+    </div>
+    <div style="margin-top:2em;">
+      <button type="submit" name="action" value="reload_tokens">Reload Tokens</button>
+      <button type="submit" name="action" value="save">Save</button>
+    </div>
+  </form>
+  <div class="debug">
+    <b>DEBUG: Raw POSTed Form Data</b><br>
+    <pre>{{ request.form if request.method == 'POST' else 'No POST data' }}</pre>
+    <b>DEBUG: Current Config State</b><br>
+    <pre>
+Exchanges: {{ config.exchanges }}
+Tokens: {{ config.tokens }}
+Stablecoins: {{ config.stablecoins }}
+Intervals: {{ config.intervals }}
+Exchange Tokenpairs: {{ config.exchange_tokenpairs | tojson(indent=2) }}
+</pre>
+    <b>DEBUG: Full Raw Config JSON</b><br>
+    {# Use a filter to remove non-serializable fields, fallback to string if needed #}
+    {% set serializable_config = config.copy() %}
+    {% if serializable_config.get('_id') is not none %}
+      {% set _ = serializable_config.pop('_id') %}
+    {% endif %}
+    <pre>{{ serializable_config | tojson(indent=2) }}</pre>
+  </div>
+  <script>
+    // Dual-list logic
+    function moveSelected(from, to) {
+      Array.from(from.selectedOptions).forEach(function(opt) {
+        to.appendChild(opt);
+      });
+    }
+    // Exchanges
+    document.getElementById('add-exchange').onclick = function() {
+      moveSelected(
+        document.getElementById('exchanges-available'),
+        document.getElementById('exchanges-selected')
+      );
+    };
+    document.getElementById('remove-exchange').onclick = function() {
+      moveSelected(
+        document.getElementById('exchanges-selected'),
+        document.getElementById('exchanges-available')
+      );
+    };
+    // Tokens
+    document.getElementById('add-token').onclick = function() {
+      moveSelected(
+        document.getElementById('tokens-available'),
+        document.getElementById('tokens-selected')
+      );
+    };
+    document.getElementById('remove-token').onclick = function() {
+      moveSelected(
+        document.getElementById('tokens-selected'),
+        document.getElementById('tokens-available')
+      );
+    };
+    // Stablecoins
+    document.getElementById('add-stablecoin').onclick = function() {
+      moveSelected(
+        document.getElementById('stablecoins-available'),
+        document.getElementById('stablecoins-selected')
+      );
+    };
+    document.getElementById('remove-stablecoin').onclick = function() {
+      moveSelected(
+        document.getElementById('stablecoins-selected'),
+        document.getElementById('stablecoins-available')
+      );
+    };
+    // Always select all before submit
+    document.getElementById('config-form').onsubmit = function() {
+      ['exchanges-selected', 'tokens-selected', 'stablecoins-selected'].forEach(function(id) {
+        var sel = document.getElementById(id);
+        if (sel) {
+          for (var i = 0; i < sel.options.length; i++) {
+            sel.options[i].selected = true;
+          }
+        }
+      });
+    };
+    // Search/filter logic for available lists
+    function setupSearch(inputId, selectId) {
+      document.getElementById(inputId).addEventListener('input', function() {
+        const search = this.value.trim().toLowerCase();
+        const select = document.getElementById(selectId);
+        Array.from(select.options).forEach(function(option) {
+          option.style.display = search === '' || option.text.toLowerCase().includes(search) ? '' : 'none';
+        });
+      });
+    }
+    setupSearch('search-exchanges', 'exchanges-available');
+    setupSearch('search-tokens', 'tokens-available');
+    setupSearch('search-stablecoins', 'stablecoins-available');
+  </script>
+</body>
+</html>

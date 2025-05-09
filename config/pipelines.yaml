@@ -3,17 +3,22 @@
 # Example structure:
 pipelines:
   current:
+    priority: 2
     schedule: "0 */1 * * *"
-    hooks: ["gather", "fetcher", "gap", "aggregate_higher_candles", "aggregate_allmarkets", "indicators"]
+    hooks: ["gather", "fetcher", "gap", "aggregate_allmarkets", "indicators"]
 
   historical:
+    priority: 8
     hooks: ["gather", "fetcher", "gap", "aggregate_higher_candles", "aggregate_allmarkets", "indicators"]
 
   fetch_historical:
+    priority: 8
     hooks: ["gather", "fetcher", "gap", "aggregate_higher_candles", "aggregate_allmarkets"]
 
   calculate_all:
-    hooks: ["indicators"]
+    priority: 8
+    hooks: ["gather", "indicators"]
 
   allmarkets:
-    hooks: ["aggregate_allmarkets"]
+    priority: 8
+    hooks: ["gather", "aggregate_allmarkets"]

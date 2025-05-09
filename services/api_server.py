@@ -21,6 +21,38 @@ orchestrator = Orchestrator()
 
 security = HTTPBasic()
 
+@app.get("/jobs", response_class=HTMLResponse)
+def jobs_page(request: Request):
+    require_auth(request)
+    return templates.TemplateResponse(
+        "jobs.html",
+        {"request": request,
+         "navbar": get_navbar(),
+         "menu": get_menu(get_plugin_names())}
+    )
+
+from core.context_builder import global_job_scheduler
+
+@app.get("/jobs/status")
+def jobs_status():
+    return {"jobs": global_job_scheduler.get_job_status()}
+
+@app.post("/jobs/action")
+def jobs_action(data: dict):
+    job_id = data.get("job_id")
+    action = data.get("action")
+    if not job_id or not action:
+        return {"error": "Missing job_id or action"}
+    if action == "pause":
+        result = global_job_scheduler.pause_job(job_id)
+    elif action == "resume":
+        result = global_job_scheduler.resume_job(job_id)
+    elif action == "cancel":
+        result = global_job_scheduler.cancel_job(job_id)
+    else:
+        return {"error": "Invalid action"}
+    return {"result": result}
+
 def is_authenticated(request: Request):
     return request.session.get("user") == ADMIN_USERNAME
 
@@ -84,6 +116,7 @@ def get_menu(plugins=None):
       <a href="/" style="color:#1557a6; text-decoration:none; font-weight:500;">Pipelines</a>
       <a href="/health" style="color:#1557a6; text-decoration:none; font-weight:500;">System Health</a>
       <a href="/logs" style="color:#1557a6; text-decoration:none; font-weight:500;">Logs</a>
+      <a href="/jobs" style="color:#1557a6; text-decoration:none; font-weight:500;">Jobs</a>
     </div>
     '''
 
@@ -129,48 +162,57 @@ async def plugin_config(request: Request, plugin: str, pipeline: str = "default"
     if not is_authenticated(request):
         return RedirectResponse("/", status_code=302)
     message = None
-    # Get default config structure from plugin
+    import importlib
     try:
-        mod = __import__(f"plugins.{plugin}", fromlist=["get_config_ui"])
-        default_config = mod.get_config_ui()
+        mod = importlib.import_module(f"plugins.{plugin}")
     except Exception as e:
-        default_config = {"error": str(e)}
-    # On POST, update config in DB
-    if request.method == "POST":
-        form = await request.form()
-        # Flatten form to dict, handle bools/ints
-        new_config = {}
-        for k, v in form.items():
-            if v.lower() == "true":
-                new_config[k] = True
-            elif v.lower() == "false":
-                new_config[k] = False
-            else:
-                try:
-                    new_config[k] = int(v)
-                except Exception:
-                    new_config[k] = v
-        try:
-            plugin_config_repo.update_plugin_config(plugin, pipeline, new_config)
-            message = "Configuration updated successfully."
-        except Exception as e:
-            message = f"Error updating config: {e}"
-    # On GET or after POST, load config from DB or fallback to default
-    config = plugin_config_repo.get_plugin_config(plugin, pipeline)
-    if not config:
-        config = default_config
-    return templates.TemplateResponse(
-        "plugin_config.html",
-        {
-            "request": request,
-            "navbar": get_navbar(),
-            "menu": get_menu(get_plugin_names()),
+        import traceback
+        from services.logger import get_logger
+        get_logger().error({
+            "event": "plugin_import_error",
             "plugin": plugin,
-            "config": config,
-            "pipeline": pipeline,
-            "message": message,
-        }
-    )
+            "error": str(e),
+            "traceback": traceback.format_exc(),
+        })
+        return HTMLResponse(f"<h2>Plugin import error: {e}</h2>", status_code=500)
+
+    config = plugin_config_repo.get_plugin_config(plugin, pipeline) or {}
+    if hasattr(mod, "handle_config_request"):
+        config_fragment = await mod.handle_config_request(request, config, pipeline, message, plugin_config_repo)
+        if request.method == "POST":
+            # Always let the plugin handler process and save the config before redirecting
+            return RedirectResponse(request.url, status_code=303)
+        if isinstance(config_fragment, HTMLResponse):
+            config_html = config_fragment.body.decode() if hasattr(config_fragment.body, 'decode') else config_fragment.body
+        else:
+            config_html = str(config_fragment)
+        # Compose the full page
+        navbar = get_navbar()
+        menu = get_menu(get_plugin_names())
+        box_style = (
+            "max-width:700px;margin:2.5em auto 0 auto;"
+            "padding:2em 2.5em;background:#fff;border-radius:12px;"
+            "box-shadow:0 2px 16px #0001;"
+        )
+        full_html = f'''
+        <!DOCTYPE html>
+        <html>
+        <head>
+          <meta charset="utf-8">
+          <title>Gather Plugin Config</title>
+          <style>body{{margin:0;font-family:sans-serif;background:#f6f8fb;}}</style>
+        </head>
+        <body>
+          {navbar}
+          {menu}
+          <div style="{box_style}">
+            {config_html}
+          </div>
+        </body>
+        </html>
+        '''
+        return HTMLResponse(full_html)
+    return HTMLResponse(f"<h2>Plugin '{plugin}' does not provide handle_config_request(). No config UI available.</h2>", status_code=501)
 
 @app.get("/plugins/{plugin}/status", response_class=HTMLResponse)
 def plugin_status(request: Request, plugin: str):
@@ -290,7 +332,11 @@ def trigger_pipeline(request: Request, pipeline: str = Form(...)):
     require_auth(request)
     if pipeline not in orchestrator.pipelines:
         return HTMLResponse(f"<h2>Pipeline not found: {pipeline}</h2>", status_code=404)
-    threading.Thread(target=orchestrator._run_pipeline, args=(pipeline,), daemon=True).start()
+    # Get pipeline priority from config, default to 10
+    priority = orchestrator.pipelines[pipeline].get("priority", 10)
+    # Dispatch a job to run the pipeline with the given priority
+    from core.context_builder import global_job_scheduler
+    global_job_scheduler.dispatch(orchestrator._run_pipeline, pipeline, priority=priority)
     return RedirectResponse("/", status_code=302)
 
 @app.get("/pipelines")

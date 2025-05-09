@@ -1,0 +1,105 @@
+# Indicator calculation configuration for DataWarehouse
+# Database name for storing indicator collections
+
+indicators:
+  Absolute_Price_Oscillator:
+    Period: 26
+    MA_Type: SMA
+    Fast_Period: 12
+    Slow_Period: 26
+  Average_Directional_Movement_Index:
+    Period: 14
+  Average_Price: {}
+  Bollinger_Bands:
+    Period: 5
+    MA_Type: SMA
+    Upper_Deviation_Multiplier: 2.0
+    Lower_Deviation_Multiplier: 2.0
+  Coppock_Indicator:
+    Period: 15
+    WMA: 10
+    ROC1: 11
+    ROC2: 14
+  Doji_Star: {}
+  Dragonfly_Doji: {}
+  Evening_Star:
+    Penetration_Percent: 1
+  Fibonacci_Retracement:
+    Reverse: false
+  Hammer: {}
+  Hikkake_Pattern: {}
+  MACD:
+    Period: 150
+    Fast_Period: 12
+    Slow_Period: 26
+    Signal_Period: 9
+  Momentum:
+    Period: 10
+  Moving_Average:
+    Period: 14
+    MA_Type: SMA
+  Moving_Average_200d:
+    Period: 200
+    MA_Type: SMA
+    Fixed_Day_Interval: true
+    Intervals:
+      1d: 1
+      6h: 4
+      1h: 24
+  Moving_Average_200w:
+    Period: 1400
+    MA_Type: SMA
+    Fixed_Day_Interval: true
+    Intervals:
+      1d: 1
+      6h: 4
+      1h: 24
+  Exponential_Moving_Average:
+    Period: 10
+  Exponential_Moving_Average_5d:
+    Period: 5
+    Fixed_Day_Interval: true
+    Intervals:
+      1d: 1
+      6h: 4
+      1h: 24
+  Exponential_Moving_Average_20d:
+    Period: 20
+    Fixed_Day_Interval: true
+    Intervals:
+      1d: 1
+      6h: 4
+      1h: 24
+  On_Balance_Volume:
+    Period: 32
+  Parabolic_SAR:
+    Period: 14
+    Acceleration: 0.2
+    Maximum: 2
+  Relative_Strength_Index:
+    Period: 14
+  Stochastic:
+    Period: 50
+    SlowK_MA_Type: SMA
+    SlowD_MA_Type: SMA
+    FastK_Period: 5
+    SlowK_Period: 3
+    SlowD_Period: 3
+  McClellan_Oscillator:
+    Period: 19
+    EMA_Period: 39
+  Sentiment_Indicator:
+    Period: 200
+  TDSequential: {}
+  PriceDiff: {}
+  Chaikin_AD_Oscillator:
+    Period: 10
+    Fast_Period: 3
+    Slow_Period: 10
+  Ultimate_Oscillator:
+    Period: 28
+    Time_Period1: 7
+    Time_Period2: 14
+    Time_Period3: 28
+  Volume_Relative_Oscillator_Crossover:
+    Period: 14

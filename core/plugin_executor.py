@@ -9,9 +9,9 @@ class PluginExecutor:
     def __init__(self) -> None:
         self.logger = get_logger()
 
-    def execute(self, plugin_run: Callable, context: dict, config: dict) -> Any:
+    def execute(self, plugin_run: Callable, context: dict, config: dict, pipeline: str) -> Any:
         try:
-            return plugin_run(context, config)
+            return plugin_run(context, config, pipeline)
         except Exception as e:
             self.logger.error({"event": "plugin_error", "error": str(e)})
             raise

@@ -3,14 +3,13 @@ Sample Plugin for demo/testing.
 """
 PLUGIN_NAME = "sample_plugin"
 HOOKS = ["fetch_data"]
-PIPELINES = ["default"]
 TAGS = ["example"]
 VERSION = "0.1.0"
 FAIL_HARD = False
 
-def run(context, config):
+def run(context, config, pipeline):
     log = context["services"]["log"]
-    log.info({"event": "sample_plugin_run", "config": config})
+    log.info({"event": "sample_plugin_run", "config": config, "pipeline": pipeline})
     # Your plugin logic here
     return {"status": "success"}
 

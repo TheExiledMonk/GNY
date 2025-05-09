@@ -13,3 +13,4 @@ passlib[bcrypt]
 itsdangerous
 python-multipart
 Jinja2
+ccxt

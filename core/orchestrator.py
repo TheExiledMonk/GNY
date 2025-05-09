@@ -57,7 +57,7 @@ class Orchestrator:
                     plugin_mod = self.plugin_loader.load(plugin_id)
                     context = build_context(pipeline_name, hook)
                     config = self.config_manager.get_plugin_config(plugin_id, pipeline_name)
-                    self.plugin_executor.execute(plugin_mod.run, context, config or {})
+                    self.plugin_executor.execute(plugin_mod.run, context, config or {}, pipeline_name)
                     self.logger.info({"event": "plugin_run", "plugin": plugin_id, "pipeline": pipeline_name, "hook": hook})
                 except Exception as e:
                     self.logger.error({"event": "plugin_error", "plugin": plugin_id, "pipeline": pipeline_name, "hook": hook, "error": str(e)})

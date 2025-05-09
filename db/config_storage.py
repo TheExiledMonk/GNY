@@ -8,6 +8,8 @@ from pymongo import MongoClient
 import copy
 import janus
 import asyncio
+from collections import defaultdict
+import time
 
 
 class ConfigStorage:
@@ -17,8 +19,13 @@ class ConfigStorage:
     Usage:
       - Use sync methods (get/insert/update/delete) for threaded code.
       - Use async methods (async_get/async_insert/async_update/async_delete) for asyncio code.
+      - Use async_bulk_insert/async_buffered_insert for efficient bulk ingestion.
     """
-    def __init__(self, mongo_uri: str = "mongodb://localhost:27017", db_name: str = "orchestrator"):
+    def __init__(self, mongo_uri: str = None, db_name: str = None):
+        # Read from environment variables if not provided
+        import os
+        mongo_uri = mongo_uri or os.getenv("MONGO_URI", "mongodb://localhost:27017")
+        db_name = db_name or os.getenv("MONGO_DB", "orchestrator")
         self._client = MongoClient(mongo_uri, connect=True)
         self._db = self._client[db_name]
         self._lock = RLock()
@@ -27,6 +34,19 @@ class ConfigStorage:
         self._stop_thread = False
         self._thread = Thread(target=self._worker, daemon=True)
         self._thread.start()
+        # --- Bulk buffer ---
+        self._bulk_buffers = defaultdict(list)  # key: (collection, db_name)
+        self._bulk_buffer_lock = RLock()
+        self._bulk_flush_interval = 2.0  # seconds
+        self._bulk_flush_maxsize = 100
+        self._bulk_last_flush = defaultdict(lambda: time.monotonic())
+        self._bulk_flush_task = None
+        try:
+            loop = asyncio.get_event_loop()
+            if loop.is_running():
+                self._bulk_flush_task = loop.create_task(self._bulk_flush_daemon())
+        except Exception:
+            pass
 
     def _worker(self):
         loop = asyncio.new_event_loop()
@@ -81,29 +101,95 @@ class ConfigStorage:
     def close(self):
         self._stop_thread = True
         self._thread.join()
+        # Flush all bulk buffers
+        if self._bulk_buffers:
+            for key in list(self._bulk_buffers.keys()):
+                self._flush_bulk_buffer(*key)
 
-    def _get_collection(self, name: str):
+    async def async_bulk_insert(self, collection: str, docs: list, db_name: str = None) -> Any:
+        """
+        Perform an async bulk insert of multiple documents into a collection and db.
+        """
+        if not docs:
+            return None
+        loop = asyncio.get_event_loop()
+        fut = loop.create_future()
+        def _bulk():
+            col = self._get_collection(collection, db_name)
+            result = col.insert_many(docs)
+            self._invalidate_cache(collection, {}, db_name)
+            return result.inserted_ids
+        loop.run_in_executor(None, lambda: fut.set_result(_bulk()))
+        return await fut
+
+    async def async_buffered_insert(self, collection: str, doc: dict, db_name: str = None) -> None:
+        """
+        Buffer documents for bulk insert. Flushes buffer on interval or max size.
+        """
+        key = (collection, db_name)
+        with self._bulk_buffer_lock:
+            self._bulk_buffers[key].append(doc)
+            if len(self._bulk_buffers[key]) >= self._bulk_flush_maxsize:
+                self._flush_bulk_buffer(collection, db_name)
+        # Timed flush is handled by background task
+
+    async def _bulk_flush_daemon(self):
+        while True:
+            await asyncio.sleep(self._bulk_flush_interval)
+            with self._bulk_buffer_lock:
+                for (collection, db_name), buf in list(self._bulk_buffers.items()):
+                    if buf and (time.monotonic() - self._bulk_last_flush[(collection, db_name)] >= self._bulk_flush_interval):
+                        self._flush_bulk_buffer(collection, db_name)
+
+    def _flush_bulk_buffer(self, collection: str, db_name: str = None):
+        key = (collection, db_name)
+        with self._bulk_buffer_lock:
+            buf = self._bulk_buffers[key]
+            if buf:
+                col = self._get_collection(collection, db_name)
+                col.insert_many(buf)
+                self._invalidate_cache(collection, {}, db_name)
+                self._bulk_buffers[key] = []
+                self._bulk_last_flush[key] = time.monotonic()
+
+    def _get_collection(self, name: str, db_name: str = None):
+        if db_name:
+            return self._client[db_name][name]
         return self._db[name]
 
-    def get(self, collection: str, query: dict = None) -> Any:
-        key = f"{collection}:{str(query)}"
+    def get(self, collection: str, query: dict = None, db_name: str = None) -> Any:
+        """
+        Fetch documents from the specified collection (and database if db_name is provided).
+        """
+        key = f"{collection}:{str(query)}:{db_name}"
         with self._lock:
             if key in self._cache:
                 return copy.deepcopy(self._cache[key])
-            col = self._get_collection(collection)
+            col = self._get_collection(collection, db_name)
             result = list(col.find(query or {}))
             self._cache[key] = copy.deepcopy(result)
             return result
 
-    def insert(self, collection: str, document: dict, upsert: bool = False) -> Any:
-        """
-        Insert a document into the collection. If upsert is True, replace or insert.
-        """
-        key_prefix = f"{collection}:"
+    def _invalidate_cache(self, collection: str, query: dict = None, db_name: str = None):
+        key = f"{collection}:{str(query)}:{db_name}"
+        prefix = f"{collection}:{db_name}:"
         with self._lock:
-            col = self._get_collection(collection)
+            # Remove the exact key
+            if key in self._cache:
+                del self._cache[key]
+            # Remove any old-style prefix keys for this collection/db
+            keys_to_remove = [k for k in self._cache if k.startswith(prefix)]
+            for k in keys_to_remove:
+                del self._cache[k]
+
+
+    def insert(self, collection: str, document: dict, upsert: bool = False, db_name: str = None) -> Any:
+        """
+        Insert a document into the collection (and database if db_name is provided). If upsert is True, replace or insert.
+        """
+        with self._lock:
+            col = self._get_collection(collection, db_name)
             if upsert:
-                # Use a unique key if provided, else fallback to insert_one
                 key = document.get('_id')
                 if key is not None:
                     result = col.replace_one({'_id': key}, document, upsert=True)
@@ -114,33 +200,32 @@ class ConfigStorage:
             else:
                 result = col.insert_one(document)
                 inserted_id = result.inserted_id
-            # Invalidate all cache for this collection
-            keys_to_remove = [k for k in self._cache if k.startswith(key_prefix)]
-            for k in keys_to_remove:
-                del self._cache[k]
-            return inserted_id
+        self._invalidate_cache(collection, {'_id': document.get('_id')}, db_name)
+        return inserted_id
 
-    def update(self, collection: str, query: dict, update: dict, upsert: bool = False) -> Any:
-        """
-        Update documents matching query. If upsert is True, insert if no match.
-        """
-        key_prefix = f"{collection}:"
-        with self._lock:
-            col = self._get_collection(collection)
-            result = col.update_many(query, {"$set": update}, upsert=upsert)
-            # Invalidate all cache for this collection
-            keys_to_remove = [k for k in self._cache if k.startswith(key_prefix)]
-            for k in keys_to_remove:
-                del self._cache[k]
-            return result.modified_count
 
-    def delete(self, collection: str, query: dict) -> Any:
-        key_prefix = f"{collection}:"
+    def update(self, collection: str, query: dict, update: dict, upsert: bool = False, db_name: str = None) -> Any:
+        """
+        Update or replace documents matching query in the specified collection (and database if db_name is provided).
+        If upsert is True, replace the document if it exists, otherwise insert.
+        """
         with self._lock:
-            col = self._get_collection(collection)
+            col = self._get_collection(collection, db_name)
+            if upsert:
+                result = col.replace_one(query, update, upsert=True)
+            else:
+                result = col.update_many(query, {"$set": update})
+        self._invalidate_cache(collection, query, db_name)
+        return result.modified_count
+
+
+    def delete(self, collection: str, query: dict, db_name: str = None) -> Any:
+        """
+        Delete documents matching query from the specified collection (and database if db_name is provided).
+        """
+        with self._lock:
+            col = self._get_collection(collection, db_name)
             result = col.delete_many(query)
-            # Invalidate all cache for this collection
-            keys_to_remove = [k for k in self._cache if k.startswith(key_prefix)]
-            for k in keys_to_remove:
-                del self._cache[k]
-            return result.deleted_count
+        self._invalidate_cache(collection, query, db_name)
+        return result.deleted_count
+

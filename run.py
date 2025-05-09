@@ -40,10 +40,35 @@ def scheduler_loop(orchestrator):
                     last_run[name] = now
         time.sleep(5)
 
+import signal
+import threading
+import sys
+
+def _graceful_shutdown(signum, frame):
+    global _logger, _orchestrator
+    if _logger:
+        _logger.info({"event": "shutdown", "signal": signum})
+    print(f"\nReceived signal {signum}. Shutting down gracefully...")
+    # Attempt to stop orchestrator threads if possible
+    try:
+        if hasattr(_orchestrator, 'thread_manager'):
+            for name in list(_orchestrator.thread_manager.threads.keys()):
+                # If stop_pipeline_thread is implemented
+                stop_fn = getattr(_orchestrator.thread_manager, 'stop_pipeline_thread', None)
+                if callable(stop_fn):
+                    stop_fn(name)
+    except Exception as e:
+        if _logger:
+            _logger.error({"event": "shutdown_error", "error": str(e)})
+    sys.exit(0)
+
 def main():
     global _logger, _orchestrator
     _logger = get_logger()
     _orchestrator = Orchestrator()
+    # Setup signal handlers for graceful shutdown
+    signal.signal(signal.SIGINT, _graceful_shutdown)
+    signal.signal(signal.SIGTERM, _graceful_shutdown)
     # Start scheduler
     t = threading.Thread(target=scheduler_loop, args=(_orchestrator,), daemon=True)
     t.start()
