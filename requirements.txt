@@ -1,0 +1,15 @@
+janus
+janus>=1.0
+psutil
+pymongo>=4.0
+pytest
+pyyaml
+requests
+pytest-asyncio
+fastapi
+uvicorn
+python-dotenv
+passlib[bcrypt]
+itsdangerous
+python-multipart
+Jinja2

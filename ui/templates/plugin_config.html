@@ -1,0 +1,43 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ plugin }} Config - GNY DataWarehouse NexGen</title>
+    <meta charset="utf-8">
+</head>
+<body style="margin:0;font-family:sans-serif;background:#f6f8fb;">
+    {{ navbar|safe }}
+    {{ menu|safe }}
+    <div style="max-width:700px;margin:2.5em auto 0 auto;padding:2em 2.5em;background:#fff;border-radius:12px;box-shadow:0 2px 16px #0001;">
+      <h2 style="margin-top:0; color:#1557a6;">{{ plugin|capitalize }} Plugin Config</h2>
+<p style="color:#1557a6; margin-bottom:0.5em;">Pipeline: <b>{{ pipeline }}</b></p>
+{% if message %}
+  <div style="background:#eafbe7;color:#1a7a2b;padding:0.8em 1em;margin-bottom:1em;border-radius:6px;">{{ message }}</div>
+{% endif %}
+<form method="post" style="margin-bottom:2em;">
+  <input type="hidden" name="pipeline" value="{{ pipeline }}" />
+  <table style="width:100%;border-collapse:collapse;">
+    {% for k, v in config.items() if k != 'error' and k != '_id' %}
+      <tr>
+        <td style="padding:0.6em 0.5em;font-weight:500;">{{ k }}</td>
+        <td style="padding:0.6em 0.5em;">
+          {% if v is boolean %}
+            <select name="{{ k }}">
+              <option value="true" {% if v %}selected{% endif %}>True</option>
+              <option value="false" {% if not v %}selected{% endif %}>False</option>
+            </select>
+          {% elif v is number %}
+            <input type="number" name="{{ k }}" value="{{ v }}" style="width:100px;" />
+          {% else %}
+            <input type="text" name="{{ k }}" value="{{ v }}" style="width:250px;" />
+          {% endif %}
+        </td>
+      </tr>
+    {% endfor %}
+  </table>
+  <button type="submit" style="margin-top:1.2em;background:#1557a6;color:#fff;padding:0.6em 2em;border:none;border-radius:4px;font-weight:bold;font-size:1.07em;cursor:pointer;">Save</button>
+</form>
+<h4 style="margin:1.5em 0 0.2em 0;color:#888;">Raw Config (debug)</h4>
+<pre style="background:#f4f8fd;border-radius:6px;padding:1.2em;font-size:1.07em;overflow-x:auto;">{{ config|tojson(indent=2) }}</pre>
+    </div>
+</body>
+</html>

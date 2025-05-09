@@ -1,0 +1,8 @@
+# system.yaml
+# Global configuration for the orchestration framework
+system:
+  cpu_limit: 80  # percent
+  slack:
+    webhook_url: "https://hooks.slack.com/services/xxx"
+    alert_on_levels: ["ERROR", "FATAL"]
+

@@ -1,0 +1,19 @@
+# pipelines.yaml
+# Defines all named pipelines for the orchestration framework
+# Example structure:
+pipelines:
+  current:
+    schedule: "0 */1 * * *"
+    hooks: ["gather", "fetcher", "gap", "aggregate_higher_candles", "aggregate_allmarkets", "indicators"]
+
+  historical:
+    hooks: ["gather", "fetcher", "gap", "aggregate_higher_candles", "aggregate_allmarkets", "indicators"]
+
+  fetch_historical:
+    hooks: ["gather", "fetcher", "gap", "aggregate_higher_candles", "aggregate_allmarkets"]
+
+  calculate_all:
+    hooks: ["indicators"]
+
+  allmarkets:
+    hooks: ["aggregate_allmarkets"]

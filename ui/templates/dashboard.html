@@ -1,0 +1,25 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>GNY DataWarehouse NexGen</title>
+    <meta charset="utf-8">
+</head>
+<body style="margin:0;font-family:sans-serif;background:#f6f8fb;">
+    {{ navbar|safe }}
+    {{ menu|safe }}
+    <div style="max-width:700px;margin:2.5em auto 0 auto;padding:2em 2.5em;background:#fff;border-radius:12px;box-shadow:0 2px 16px #0001;">
+      <h2 style="margin-top:0; color:#1557a6;">Pipelines</h2>
+      <ul style="list-style:none; padding:0;">
+        {% for p in pipelines %}
+        <li style="margin-bottom:0.7em; display:flex; align-items:center; justify-content:space-between; max-width:350px;">
+          <span style="font-size:1.08em;">{{ p }}</span>
+          <form method="post" action="/trigger" style="display:inline; margin:0;">
+            <input type="hidden" name="pipeline" value="{{ p }}" />
+            <button style="background:#1557a6; color:#fff; border:none; padding:0.3em 1.1em; border-radius:4px; font-weight:500; cursor:pointer;">Trigger</button>
+          </form>
+        </li>
+        {% endfor %}
+      </ul>
+    </div>
+</body>
+</html>

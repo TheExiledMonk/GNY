@@ -1,0 +1,21 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Health - GNY DataWarehouse NexGen</title>
+    <meta charset="utf-8">
+</head>
+<body style="margin:0;font-family:sans-serif;background:#f6f8fb;">
+    {{ navbar|safe }}
+    {{ menu|safe }}
+    <div style="max-width:700px;margin:2.5em auto 0 auto;padding:2em 2.5em;background:#fff;border-radius:12px;box-shadow:0 2px 16px #0001;">
+      <h2 style="margin-top:0; color:#1557a6;">System Health</h2>
+      <table style="width:100%;border-collapse:collapse;font-size:1.08em;">
+        <tr><td style="padding:0.7em 0.5em;">CPU Usage</td><td style="padding:0.7em 0.5em;">{{ stats.cpu }}%</td></tr>
+        <tr><td style="padding:0.7em 0.5em;">Memory Used</td><td style="padding:0.7em 0.5em;">{{ stats.memory.used // (1024**2) }} MB / {{ stats.memory.total // (1024**2) }} MB</td></tr>
+        <tr><td style="padding:0.7em 0.5em;">Disk Used</td><td style="padding:0.7em 0.5em;">{{ stats.disk.used // (1024**3) }} GB / {{ stats.disk.total // (1024**3) }} GB</td></tr>
+        <tr><td style="padding:0.7em 0.5em;">Disk Free</td><td style="padding:0.7em 0.5em;">{{ stats.disk.free // (1024**3) }} GB</td></tr>
+        <tr><td style="padding:0.7em 0.5em;">DB Health</td><td style="padding:0.7em 0.5em;">{{ 'OK' if stats.db_health.get('ok') else 'ERROR' }}</td></tr>
+      </table>
+    </div>
+</body>
+</html>

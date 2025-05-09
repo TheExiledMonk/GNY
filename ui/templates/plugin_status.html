@@ -1,0 +1,15 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>{{ plugin }} Status - GNY DataWarehouse NexGen</title>
+    <meta charset="utf-8">
+</head>
+<body style="margin:0;font-family:sans-serif;background:#f6f8fb;">
+    {{ navbar|safe }}
+    {{ menu|safe }}
+    <div style="max-width:700px;margin:2.5em auto 0 auto;padding:2em 2.5em;background:#fff;border-radius:12px;box-shadow:0 2px 16px #0001;">
+      <h2 style="margin-top:0; color:#1557a6;">{{ plugin|capitalize }} Plugin Status</h2>
+      <pre style="background:#f4f8fd;border-radius:6px;padding:1.2em;font-size:1.07em;overflow-x:auto;">{{ status|tojson(indent=2) }}</pre>
+    </div>
+</body>
+</html>
