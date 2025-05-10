@@ -1,13 +1,13 @@
 """
 logs.py: Runtime + error logs view.
 """
-from flask import render_template, request, redirect, url_for
-from services.api_server import get_navbar, get_menu, get_plugin_names, require_auth
+from flask import render_template, request, redirect, url_for, session
+from ui.utils import get_navbar, get_menu, get_plugin_names, require_auth
 from datetime import datetime
 import os
 
 def logs_view():
-    require_auth()
+    require_auth(session)
     log_path = os.path.join("logs", "orchestrator.log")
     logs = []
     level = request.args.get("level")

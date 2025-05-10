@@ -82,8 +82,8 @@ def update_tokenpairs(new_config: dict) -> None:
         new_config.get("stablecoins", []),
     )
 
-def build_context(request, config, pipeline, message, all_exchanges, all_tokens, all_stablecoins, intervals_str) -> dict:
-    return {
+def build_context(request, config, pipeline, message, all_exchanges, all_tokens, all_stablecoins, intervals_str, navbar=None, menu=None) -> dict:
+    ctx = {
         "request": request,
         "plugin": "gather_plugin",
         "config": config,
@@ -94,6 +94,11 @@ def build_context(request, config, pipeline, message, all_exchanges, all_tokens,
         "all_stablecoins": all_stablecoins,
         "intervals_str": intervals_str,
     }
+    if navbar is not None:
+        ctx["navbar"] = navbar
+    if menu is not None:
+        ctx["menu"] = menu
+    return ctx
 
 def handle_config_request(
     request,
@@ -117,7 +122,10 @@ def handle_config_request(
     all_tokens = get_tokens_for_exchanges(selected_exchanges) if selected_exchanges else []
     all_stablecoins = get_stablecoins_for_exchanges(selected_exchanges) if selected_exchanges else []
     intervals_str = get_intervals_str_and_update(config)
-    ctx = build_context(request, config, pipeline, message, all_exchanges, all_tokens, all_stablecoins, intervals_str)
+    from ui.utils import get_navbar, get_menu, get_plugin_names
+    navbar = get_navbar()
+    menu = get_menu(get_plugin_names())
+    ctx = build_context(request, config, pipeline, message, all_exchanges, all_tokens, all_stablecoins, intervals_str, navbar=navbar, menu=menu)
 
     if request.method == "POST":
         logging.getLogger("gather_plugin").info({"event": "post_received"})

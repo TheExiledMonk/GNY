@@ -3,9 +3,10 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8">
+  <link rel="stylesheet" href="/static/gny_style.css">
   <title>Gather Plugin Configuration</title>
   <style>
-    body { font-family: sans-serif; margin: 2em; }
+
     .dual-listbox { display: flex; gap: 2em; align-items: flex-start; }
     .dual-listbox > div { min-width: 220px; }
     select { width: 100%; min-width: 200px; }
@@ -15,6 +16,9 @@
   </style>
 </head>
 <body>
+  {{ navbar|safe }}
+  {{ menu|safe }}
+  <div class="main-content">
   <h2>Gather Plugin Configuration</h2>
   <form method="post" id="config-form">
     <!-- Exchanges Dual List -->
@@ -216,5 +220,6 @@ Exchange Tokenpairs: {{ config.exchange_tokenpairs | tojson(indent=2) }}
     setupSearch('search-tokens', 'tokens-available');
     setupSearch('search-stablecoins', 'stablecoins-available');
   </script>
+  </div>
 </body>
 </html>

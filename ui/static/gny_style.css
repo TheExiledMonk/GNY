@@ -1,0 +1,248 @@
+/* GNY DataWarehouse NexGen - Unified UI Styles */
+
+/* Jobs table/status styles */
+
+.jobs-table {
+    width: 100%;
+    border-collapse: separate;
+    border-spacing: 0;
+    margin: 1em 0;
+    background: #fff;
+    box-shadow: 0 2px 8px #0001;
+    border-radius: 8px;
+    overflow: hidden;
+}
+.jobs-table th, .jobs-table td {
+    padding: 0.7em 1em;
+    border-bottom: 1px solid #e3e3e3;
+    text-align: center;
+    font-size: 1em;
+}
+.jobs-table th {
+    background: #f4f8fd;
+    font-weight: 600;
+    color: #1557a6;
+}
+.jobs-table tr:last-child td {
+    border-bottom: none;
+}
+.jobs-table tr:hover td {
+    background: #f0f4fa;
+}
+
+
+.menu-bar {
+    background: #eaf1fb;
+    padding: 0.7em 1.5em;
+    display: flex;
+    gap: 2em;
+    font-size: 1.08em;
+    align-items: center;
+}
+.menu-link {
+    color: #1557a6;
+    text-decoration: none;
+    font-weight: 500;
+    padding: 0.2em 0.7em;
+    border-radius: 4px;
+    transition: background 0.15s;
+}
+.menu-link:hover, .plugin-menu-link:hover {
+    background: #d6e7fa;
+}
+.menu-item {
+    position: relative;
+}
+.plugin-dropdown {
+    position: relative;
+}
+.plugin-dropdown-list {
+    display: none;
+    position: absolute;
+    left: 0;
+    top: 100%;
+    background: #fff;
+    border: 1px solid #c9e2ff;
+    min-width: 170px;
+    z-index: 10;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px #0001;
+    padding: 0.2em 0;
+}
+.plugin-dropdown:hover .plugin-dropdown-list {
+    display: block;
+}
+.plugin-dropdown-item {
+    position: relative;
+    padding: 0.2em 0.7em;
+    cursor: pointer;
+    font-size: 1em;
+    font-weight: 500;
+    color: #1557a6;
+    background: none;
+    white-space: nowrap;
+}
+.plugin-dropdown-item:hover {
+    background: #eaf1fb;
+}
+.plugin-name {
+    display: block;
+    padding: 0.2em 0;
+}
+.plugin-submenu {
+    display: none;
+    position: absolute;
+    left: 100%;
+    top: 0;
+    background: #fff;
+    border: 1px solid #c9e2ff;
+    min-width: 110px;
+    z-index: 11;
+    border-radius: 6px;
+    box-shadow: 0 2px 8px #0001;
+    padding: 0.2em 0;
+}
+.plugin-dropdown-item:hover .plugin-submenu {
+    display: block;
+}
+.plugin-menu-link {
+    display: block;
+    padding: 0.4em 1.1em;
+    color: #1557a6;
+    text-decoration: none;
+    white-space: nowrap;
+    font-weight: 400;
+    font-size: 0.98em;
+}
+.plugin-menu-link:hover {
+    background: #d6e7fa;
+}
+
+/* Ensure navbar and menu bar heights are fixed and consistent */
+.navbar-gny {
+    height: 56px;
+    min-height: 56px;
+    line-height: 56px;
+    background: #1557a6;
+    color: #fff;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0 2em;
+    box-sizing: border-box;
+}
+.menu-bar {
+    min-height: 40px;
+    height: 40px;
+    display: flex;
+    align-items: center;
+    background: #eaf1fb;
+    padding: 0.7em 1.5em;
+    gap: 2em;
+    font-size: 1.08em;
+    box-sizing: border-box;
+}
+.plugin-menu-link {
+    display: block;
+    padding: 0.4em 1.1em;
+    color: #1557a6;
+    text-decoration: none;
+    white-space: nowrap;
+}
+.plugin-label {
+    cursor: pointer;
+}
+
+
+.main-content {
+    max-width: 700px;
+    margin: 2.5em auto 0 auto;
+    padding: 2em 2.5em;
+    background: #fff;
+    border-radius: 12px;
+    box-shadow: 0 2px 16px #0001;
+}
+
+.main-title {
+    margin-top: 0;
+    color: #1557a6;
+}
+
+.job-status-Running { color: #0d6efd; font-weight: bold; }
+.job-status-Done { color: #198754; }
+.job-status-Paused { color: #ffc107; font-weight: bold; }
+.job-status-Queued { color: #6c757d; }
+.job-action-btn { margin-right: 0.5em; }
+
+/* Config editor styles */
+.editor-section { max-width: 800px; margin: 2.5em auto 0 auto; background: #fff; border-radius: 12px; box-shadow: 0 2px 16px #0001; padding: 2em 2.5em; }
+textarea { width: 100%; min-height: 320px; font-family: monospace; font-size: 1.08em; background: #f4f8fd; border-radius: 6px; padding: 1.2em; border: 1px solid #eee; }
+.config-label { color: #1557a6; font-weight: bold; font-size: 1.18em; margin-bottom: 0.4em; }
+.save-btn { background: #1557a6; color: #fff; padding: 0.6em 2em; border: none; border-radius: 4px; font-weight: bold; font-size: 1.07em; cursor: pointer; }
+.error-msg { color: #b00020; margin-bottom: 1em; }
+.success-msg { color: #198754; margin-bottom: 1em; }
+
+
+body {
+    margin: 0;
+    font-family: sans-serif;
+    background: #f6f8fb;
+}
+
+.navbar-gny {
+    background: #1557a6;
+    color: #fff;
+    height: 56px;
+    min-height: 56px;
+    line-height: 56px;
+    padding: 0;
+    margin: 0 !important;
+    border: 0 !important;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    box-sizing: border-box;
+}
+.navbar-gny, .navbar-gny * {
+    box-sizing: border-box;
+    font-family: inherit;
+}
+
+
+.navbar-title {
+    color: #fff;
+    font-size: 1.38em;
+    font-weight: 600;
+    letter-spacing: 0.03em;
+    margin-left: 2.5em;
+}
+
+.navbar-logout-form {
+    margin: 0;
+    margin-right: 2.5em;
+}
+
+.navbar-logout-btn {
+    background: #fff;
+    color: #1557a6;
+    font-weight: 600;
+    font-size: 1.03em;
+    padding: 0.32em 1.2em;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+}
+
+.menu-gny {
+    background: #eaf1fb;
+    padding: 0.7em 1.5em;
+    display: flex;
+    gap: 2em;
+    font-size: 1.08em;
+}
+
+.menu-gny a {
+    color: #1557a6;
+    text-decoration: none;
+    font-weight: 500;
+}

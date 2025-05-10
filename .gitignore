@@ -1,0 +1,50 @@
+# Python
+__pycache__/
+*.py[cod]
+*.pyo
+*.pyd
+*.so
+
+# Virtual environments
+.venv/
+venv/
+ENV/
+env/
+
+# Logs
+logs/*.log*
+
+# IDEs
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Jupyter
+.ipynb_checkpoints/
+
+# Misc
+*.bak
+*.tmp
+*.orig
+
+# Node/npm
+node_modules/
+
+# Build
+build/
+dist/
+.eggs/
+*.egg-info/
+
+# Others
+*.sqlite3
+*.db
+
+# Sensitive
+.env
+.env.*

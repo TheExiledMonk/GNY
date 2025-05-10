@@ -4,7 +4,7 @@ jobs.py: Job list view and control endpoints for the UI.
 from flask import jsonify, request, render_template
 from services.job_scheduler import JobScheduler
 from core.orchestrator import Orchestrator
-from services.api_server import get_navbar, get_menu, get_plugin_names
+from ui.utils import get_navbar, get_menu, get_plugin_names
 
 # Wire up the scheduler from the orchestrator singleton
 orchestrator = Orchestrator()
