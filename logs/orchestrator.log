@@ -279,3 +279,138 @@
 2025-05-10 03:55:09,045 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
 2025-05-10 03:55:09,045 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
 2025-05-10 03:55:09,045 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 04:00:00,003 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "current_1h"}
+2025-05-10 04:00:00,004 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "current_1h"}
+2025-05-10 04:00:00,004 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "current_1h"}
+2025-05-10 04:00:00,004 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "current_1h", "hook": "gather"}
+2025-05-10 04:00:00,004 ERROR {"event": "plugin_error", "plugin": "fetcher_plugin", "pipeline": "current_1h", "hook": "fetcher", "error": "No module named 'plugins.fetcher_plugin'"}
+2025-05-10 04:00:00,004 ERROR {"event": "plugin_error", "plugin": "gap_plugin", "pipeline": "current_1h", "hook": "gap", "error": "No module named 'plugins.gap_plugin'"}
+2025-05-10 04:00:00,004 ERROR {"event": "plugin_error", "plugin": "aggregate_allmarkets_plugin", "pipeline": "current_1h", "hook": "aggregate_allmarkets", "error": "No module named 'plugins.aggregate_allmarkets_plugin'"}
+2025-05-10 04:00:00,005 ERROR {"event": "plugin_error", "plugin": "indicators_plugin", "pipeline": "current_1h", "hook": "indicators", "error": "module 'plugins.indicators_plugin' has no attribute 'run'"}
+2025-05-10 04:02:30,354 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 04:02:31,676 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 04:02:31,677 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 04:02:31,678 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:00:00,004 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "current_1h"}
+2025-05-10 05:00:00,004 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "current_1h"}
+2025-05-10 05:00:00,004 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "current_1h"}
+2025-05-10 05:00:00,004 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "current_1h", "hook": "gather"}
+2025-05-10 05:00:00,004 ERROR {"event": "plugin_error", "plugin": "fetcher_plugin", "pipeline": "current_1h", "hook": "fetcher", "error": "No module named 'plugins.fetcher_plugin'"}
+2025-05-10 05:00:00,004 ERROR {"event": "plugin_error", "plugin": "gap_plugin", "pipeline": "current_1h", "hook": "gap", "error": "No module named 'plugins.gap_plugin'"}
+2025-05-10 05:00:00,004 ERROR {"event": "plugin_error", "plugin": "aggregate_allmarkets_plugin", "pipeline": "current_1h", "hook": "aggregate_allmarkets", "error": "No module named 'plugins.aggregate_allmarkets_plugin'"}
+2025-05-10 05:00:00,005 ERROR {"event": "plugin_error", "plugin": "indicators_plugin", "pipeline": "current_1h", "hook": "indicators", "error": "module 'plugins.indicators_plugin' has no attribute 'run'"}
+2025-05-10 05:25:09,754 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:40:13,212 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:40:13,214 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:40:13,215 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:41:59,403 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:42:17,234 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:42:17,234 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:42:17,236 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:43:48,256 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:43:49,897 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:43:49,897 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:43:49,899 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:45:18,846 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:45:41,647 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:45:41,648 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:45:41,649 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:46:44,288 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:46:45,793 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:46:45,795 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:46:45,796 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:48:28,057 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:48:29,708 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:48:29,710 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:48:29,710 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:56:25,249 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:56:36,911 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:56:36,914 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:56:36,915 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:56:44,054 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 05:56:44,060 INFO {"event": "plugin_run", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug"}
+2025-05-10 05:58:22,117 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:58:24,773 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:58:24,775 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:58:24,775 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 05:59:22,360 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 05:59:23,905 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 05:59:23,905 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 05:59:23,906 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:00:00,004 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "current_1h"}
+2025-05-10 06:00:00,005 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "current_1h"}
+2025-05-10 06:00:00,005 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "current_6h"}
+2025-05-10 06:00:00,005 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "current_1h"}
+2025-05-10 06:00:00,005 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "current_6h"}
+2025-05-10 06:00:00,006 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "current_1h", "hook": "gather"}
+2025-05-10 06:00:00,006 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "current_6h"}
+2025-05-10 06:00:00,006 ERROR {"event": "plugin_error", "plugin": "fetcher_plugin", "pipeline": "current_1h", "hook": "fetcher", "error": "No module named 'plugins.fetcher_plugin'"}
+2025-05-10 06:00:00,006 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "current_6h", "hook": "gather"}
+2025-05-10 06:00:00,007 ERROR {"event": "plugin_error", "plugin": "gap_plugin", "pipeline": "current_1h", "hook": "gap", "error": "No module named 'plugins.gap_plugin'"}
+2025-05-10 06:00:00,007 ERROR {"event": "plugin_error", "plugin": "fetcher_plugin", "pipeline": "current_6h", "hook": "fetcher", "error": "No module named 'plugins.fetcher_plugin'"}
+2025-05-10 06:00:00,007 ERROR {"event": "plugin_error", "plugin": "aggregate_allmarkets_plugin", "pipeline": "current_1h", "hook": "aggregate_allmarkets", "error": "No module named 'plugins.aggregate_allmarkets_plugin'"}
+2025-05-10 06:00:00,007 ERROR {"event": "plugin_error", "plugin": "gap_plugin", "pipeline": "current_6h", "hook": "gap", "error": "No module named 'plugins.gap_plugin'"}
+2025-05-10 06:00:00,008 ERROR {"event": "plugin_error", "plugin": "aggregate_allmarkets_plugin", "pipeline": "current_6h", "hook": "aggregate_allmarkets", "error": "No module named 'plugins.aggregate_allmarkets_plugin'"}
+2025-05-10 06:00:00,009 ERROR {"event": "plugin_error", "plugin": "indicators_plugin", "pipeline": "current_1h", "hook": "indicators", "error": "module 'plugins.indicators_plugin' has no attribute 'run'"}
+2025-05-10 06:00:00,010 ERROR {"event": "plugin_error", "plugin": "indicators_plugin", "pipeline": "current_6h", "hook": "indicators", "error": "module 'plugins.indicators_plugin' has no attribute 'run'"}
+2025-05-10 06:00:49,085 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:00:50,498 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:00:50,499 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:00:50,500 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:01:08,204 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:01:32,180 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:01:32,181 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:01:32,181 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:03:17,216 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:03:18,624 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:03:18,624 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:03:18,625 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:04:25,533 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:04:26,926 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:04:26,926 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:04:26,927 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:05:20,443 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:05:21,888 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:05:21,889 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:05:21,889 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:05:52,836 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:06:32,212 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:06:32,213 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:06:32,214 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:10:13,590 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:10:49,917 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:10:49,918 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:10:49,919 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:14:01,997 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:14:03,323 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:14:03,324 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:14:03,324 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:14:17,539 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 06:14:17,542 INFO {"event": "plugin_run", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug"}
+2025-05-10 06:14:27,696 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:17:04,085 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:17:04,085 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:17:04,086 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:17:51,197 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:19:19,093 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:19:19,094 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:19:19,095 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:20:58,363 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:21:53,039 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:21:53,040 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:21:53,040 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:21:57,033 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 06:21:57,038 INFO {"event": "plugin_run", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug"}
+2025-05-10 06:30:26,215 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:30:27,855 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:30:27,855 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:30:27,856 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:30:34,977 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 06:30:34,981 INFO {"event": "plugin_run", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug"}
+2025-05-10 06:38:27,901 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 06:38:29,481 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 06:38:29,481 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 06:38:29,483 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 06:38:54,341 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 06:38:54,348 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 06:38:54,348 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}

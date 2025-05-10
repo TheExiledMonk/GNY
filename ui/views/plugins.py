@@ -70,10 +70,24 @@ def plugin_config_view(plugin: str) -> str:
     return f"<h2>Plugin '{plugin}' does not provide handle_config_request(). No config UI available.</h2>", 501
 
 def plugin_status_view(plugin):
+    """
+    Dynamic status endpoint for plugins. Returns HTML or Response for plugin status UI.
+    Handles plugins that return Flask Response, string, or dict.
+    Delegates to plugin's get_status(request) if present and callable.
+    """
     require_auth(session)
     try:
+        import importlib
+        from flask import request, Response
         mod = importlib.import_module(f"plugins.{plugin}")
-        status = getattr(mod, "get_status", lambda: {"error": "No status available"})()
+        get_status = getattr(mod, "get_status", None)
+        if callable(get_status):
+            return get_status(request)
+        # fallback to old logic
+        status = getattr(mod, "status", lambda: {"error": "No status available"})()
+        if isinstance(status, Response) or isinstance(status, str):
+            return status
+        return str(status)
     except Exception as e:
         status = {"error": str(e)}
         return f"<h2>Status for {plugin}</h2><pre>{status}</pre>"

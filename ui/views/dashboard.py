@@ -1,11 +1,28 @@
 """
 dashboard.py: Plugin/pipeline overview view.
 """
-from flask import render_template
+from flask import render_template, request, redirect, url_for, flash
 from core.orchestrator import Orchestrator
 from ui.utils import get_menu, get_navbar, get_plugin_names, is_authenticated
-
 from flask import session
+
+def trigger_pipeline_view() -> str:
+    """
+    Handles POST to /trigger. Triggers the selected pipeline via Orchestrator and returns a status message.
+    """
+    if not is_authenticated(session):
+        return redirect(url_for("ui.dashboard_view"))
+    pipeline = request.form.get("pipeline")
+    if not pipeline:
+        flash("No pipeline specified.", "error")
+        return redirect(url_for("ui.dashboard_view"))
+    orchestrator = Orchestrator()
+    try:
+        result = orchestrator.trigger_pipeline(pipeline)
+        flash(f"Pipeline '{pipeline}' triggered: {result}", "success")
+    except Exception as e:
+        flash(f"Failed to trigger pipeline '{pipeline}': {e}", "error")
+    return redirect(url_for("ui.dashboard_view"))
 
 def dashboard_view():
     if not is_authenticated(session):

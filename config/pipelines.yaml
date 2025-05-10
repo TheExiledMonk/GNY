@@ -35,3 +35,9 @@ pipelines:
   allmarkets:
     priority: 8
     hooks: ["gather", "aggregate_allmarkets"]
+
+  debug:
+    priority: 10
+    command: "interval:1h"
+    hooks: ["debug", "debug"]
+

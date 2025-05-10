@@ -48,44 +48,101 @@ class Orchestrator:
                 pipeline_name
             )
 
+    def trigger_pipeline(self, pipeline_name: str) -> str:
+        """
+        Synchronously runs the specified pipeline once. Used by the UI /trigger endpoint.
+        Logs trigger events and errors.
+        Returns a user-friendly status string.
+        """
+        if pipeline_name not in self.pipelines:
+            self.logger.error({
+                "event": "trigger_pipeline_error",
+                "pipeline": pipeline_name,
+                "error": "Pipeline not found"
+            })
+            return f"Pipeline '{pipeline_name}' not found."
+        try:
+            self.logger.info({"event": "trigger_pipeline", "pipeline": pipeline_name})
+            self._run_pipeline(pipeline_name)
+            return "Triggered successfully."
+        except Exception as e:
+            self.logger.error({
+                "event": "trigger_pipeline_error",
+                "pipeline": pipeline_name,
+                "error": str(e)
+            })
+            return f"Error triggering pipeline: {e}"
+
     def _run_pipeline(self, pipeline_name: str) -> None:
-        """Run a pipeline."""
+        """
+        Run a pipeline. Pass a cumulative context object through the plugin chain, so each plugin can update and see the full pipeline context. Each plugin still receives its own config from the config manager.
+        """
         pdata = self.pipelines[pipeline_name]
         hooks = pdata.get("hooks", [])
+        # Build initial context once for the pipeline
+        context = build_context(pipeline_name, hooks[0] if hooks else None)
         for hook in hooks:
             plugin_ids = self.hook_registry.get_plugins(hook)
             for plugin_id in plugin_ids:
                 try:
-                    execute_plugin_for_pipeline(
+                    # Each plugin gets its own config
+                    config = self.config_manager.get_plugin_config(plugin_id, pipeline_name) or {}
+                    # Execute plugin, passing cumulative context
+                    new_context = execute_plugin_for_pipeline_with_context(
                         plugin_id=plugin_id,
                         pipeline_name=pipeline_name,
                         hook=hook,
                         pipelines=self.pipelines,
                         plugin_loader=self.plugin_loader,
-                        config_manager=self.config_manager,
                         plugin_executor=self.plugin_executor,
-                        logger=self.logger
+                        logger=self.logger,
+                        context=context,
+                        config=config
                     )
+                    # Update context if plugin returned a new one
+                    if new_context is not None:
+                        context = new_context
                 except Exception as e:
-                    self.logger.error({"event": "plugin_error", "plugin": plugin_id, "pipeline": pipeline_name, "hook": hook, "error": str(e)})
+                    self.logger.error({
+                        "event": "plugin_error",
+                        "plugin": plugin_id,
+                        "pipeline": pipeline_name,
+                        "hook": hook,
+                        "error": str(e)
+                    })
 
 
-def execute_plugin_for_pipeline(
+
+def execute_plugin_for_pipeline_with_context(
     plugin_id: str,
     pipeline_name: str,
     hook: str,
     pipelines: Dict[str, Any],
     plugin_loader: Any,
-    config_manager: Any,
     plugin_executor: Any,
-    logger: Any
-) -> None:
-    """Helper to load, build context, and execute a plugin for a pipeline/hook."""
+    logger: Any,
+    context: dict,
+    config: dict
+) -> dict:
+    """
+    Helper to load, execute a plugin for a pipeline/hook, and allow context mutation.
+    Passes the cumulative context and plugin-specific config to the plugin. If the plugin returns an updated context, it is used for the next plugin.
+    """
     plugin_mod = plugin_loader.load(plugin_id)
-    context = build_context(pipeline_name, hook)
     pdata = pipelines[pipeline_name]
     command = pdata.get('command')
     context['command'] = command if command is not None else None
-    config = config_manager.get_plugin_config(plugin_id, pipeline_name)
-    plugin_executor.execute(plugin_mod.run, context, config or {}, pipeline_name)
+    # Run plugin
+    result = plugin_executor.execute(plugin_mod.run, context, config, pipeline_name)
+    # If plugin returns an updated context, use it
+    if isinstance(result, dict) and 'context' in result and isinstance(result['context'], dict):
+        logger.info({
+            "event": "plugin_context_update",
+            "plugin": plugin_id,
+            "pipeline": pipeline_name,
+            "hook": hook,
+            "updated_keys": list(result['context'].keys())
+        })
+        return result['context']
     logger.info({"event": "plugin_run", "plugin": plugin_id, "pipeline": pipeline_name, "hook": hook})
+    return context
