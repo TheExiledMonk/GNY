@@ -2,20 +2,25 @@
 JobScheduler: Runs dispatched plugin jobs, manages CPU target usage.
 Threadsafe, supports background and async jobs.
 """
-import threading
-import queue
-import time
-from typing import Callable
-import uuid
-import psutil
-from services.config_manager import ConfigManager
+
 import logging
+import queue
+import threading
+import time
+import uuid
+from typing import Callable
+
+import psutil
+
+from services.config_manager import ConfigManager
 
 # Set up logging
-logging.basicConfig(filename='logs/job_scheduler.log', level=logging.INFO)
+logging.basicConfig(filename="logs/job_scheduler.log", level=logging.INFO)
+
 
 class PrioritizedJob:
     """Represents a job with a given priority."""
+
     def __init__(self, priority: int, func: Callable, args: tuple, kwargs: dict):
         self.priority = priority
         self.func = func
@@ -35,6 +40,7 @@ class PrioritizedJob:
 
 class JobStatusTracker:
     """Tracks the status of jobs."""
+
     def __init__(self):
         self._job_status = {}  # job_id -> PrioritizedJob
 
@@ -55,7 +61,13 @@ class JobStatusTracker:
 
 class JobWorker:
     """Runs jobs from the queue."""
-    def __init__(self, queue: queue.PriorityQueue, job_status_tracker: JobStatusTracker, pause_event: threading.Event):
+
+    def __init__(
+        self,
+        queue: queue.PriorityQueue,
+        job_status_tracker: JobStatusTracker,
+        pause_event: threading.Event,
+    ):
         self._queue = queue
         self._job_status_tracker = job_status_tracker
         self._pause_event = pause_event
@@ -94,10 +106,13 @@ class JobScheduler:
     """
     JobScheduler with priority queue and pause/resume/stop for low priority jobs.
     """
+
     def __init__(self, max_workers: int = None, cpu_target: int = 80):
         config = ConfigManager().get_global_config()
-        scheduler_cfg = (config or {}).get('system', {}).get('scheduler', {}) if config else {}
-        max_workers = max_workers or scheduler_cfg.get('max_workers', 8)
+        scheduler_cfg = (
+            (config or {}).get("system", {}).get("scheduler", {}) if config else {}
+        )
+        max_workers = max_workers or scheduler_cfg.get("max_workers", 8)
         self._queue = queue.PriorityQueue()
         self._job_status_tracker = JobStatusTracker()
         self._workers = []
@@ -142,12 +157,18 @@ class JobScheduler:
         """
         info = []
         for job in self._job_status_tracker._job_status.values():
-            info.append({
-                "job_id": job.job_id,
-                "priority": job.priority,
-                "status": job.status,
-                "run_time": (job.end_time or time.time()) - job.start_time if job.start_time else None,
-                "cpu": job.cpu,
-                "mem": job.mem
-            })
+            info.append(
+                {
+                    "job_id": job.job_id,
+                    "priority": job.priority,
+                    "status": job.status,
+                    "run_time": (
+                        (job.end_time or time.time()) - job.start_time
+                        if job.start_time
+                        else None
+                    ),
+                    "cpu": job.cpu,
+                    "mem": job.mem,
+                }
+            )
         return info

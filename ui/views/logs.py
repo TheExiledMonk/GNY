@@ -1,10 +1,14 @@
 """
 logs.py: Runtime + error logs view.
 """
-from flask import render_template, request, session
-from ui.utils import get_navbar, get_menu, get_plugin_names, require_auth
-from datetime import datetime
+
 import os
+from datetime import datetime
+
+from flask import render_template, request, session
+
+from ui.utils import get_menu, get_navbar, get_plugin_names, require_auth
+
 
 def logs_view():
     require_auth(session)
@@ -22,7 +26,7 @@ def logs_view():
         for line in reversed(lines):
             if level and (f" {level.upper()} " not in line):
                 continue
-            if (start or end):
+            if start or end:
                 try:
                     dt_str = line.split()[0]
                     dt = datetime.fromisoformat(dt_str)

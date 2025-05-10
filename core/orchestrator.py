@@ -1,19 +1,24 @@
 """
 Orchestrator: Runs pipelines, resolves hooks/plugins, passes context, manages threads.
 """
+
+import os
+from typing import Any, Dict
+
 import yaml
+
+from core.context_builder import build_context
 from core.hook_registry import HookRegistry
 from core.plugin_executor import PluginExecutor
-from core.context_builder import build_context
-from core.thread_manager import ThreadManager
-from services.logger import get_logger
-from services.config_manager import ConfigManager
 from core.plugin_loader import PluginLoader
-from typing import Any, Dict
-import os
+from core.thread_manager import ThreadManager
+from services.config_manager import ConfigManager
+from services.logger import get_logger
+
 
 class Orchestrator:
     """Main orchestrator for pipeline execution."""
+
     def __init__(self) -> None:
         self.logger = get_logger()
         self.hook_registry = HookRegistry()
@@ -26,7 +31,9 @@ class Orchestrator:
 
     def _load_pipelines(self) -> Dict[str, Any]:
         """Load pipelines from config file."""
-        config_path = os.path.join(os.path.dirname(__file__), "..", "config", "pipelines.yaml")
+        config_path = os.path.join(
+            os.path.dirname(__file__), "..", "config", "pipelines.yaml"
+        )
         with open(config_path, "r") as f:
             raw = yaml.safe_load(f)
         return raw.get("pipelines", {})
@@ -43,9 +50,7 @@ class Orchestrator:
         self.logger.info({"event": "orchestrator_start"})
         for pipeline_name in self.pipelines:
             self.thread_manager.start_pipeline_thread(
-                pipeline_name,
-                self._run_pipeline,
-                pipeline_name
+                pipeline_name, self._run_pipeline, pipeline_name
             )
 
     def trigger_pipeline(self, pipeline_name: str) -> str:
@@ -55,22 +60,26 @@ class Orchestrator:
         Returns a user-friendly status string.
         """
         if pipeline_name not in self.pipelines:
-            self.logger.error({
-                "event": "trigger_pipeline_error",
-                "pipeline": pipeline_name,
-                "error": "Pipeline not found"
-            })
+            self.logger.error(
+                {
+                    "event": "trigger_pipeline_error",
+                    "pipeline": pipeline_name,
+                    "error": "Pipeline not found",
+                }
+            )
             return f"Pipeline '{pipeline_name}' not found."
         try:
             self.logger.info({"event": "trigger_pipeline", "pipeline": pipeline_name})
             self._run_pipeline(pipeline_name)
             return "Triggered successfully."
         except Exception as e:
-            self.logger.error({
-                "event": "trigger_pipeline_error",
-                "pipeline": pipeline_name,
-                "error": str(e)
-            })
+            self.logger.error(
+                {
+                    "event": "trigger_pipeline_error",
+                    "pipeline": pipeline_name,
+                    "error": str(e),
+                }
+            )
             return f"Error triggering pipeline: {e}"
 
     def _run_pipeline(self, pipeline_name: str) -> None:
@@ -86,7 +95,10 @@ class Orchestrator:
             for plugin_id in plugin_ids:
                 try:
                     # Each plugin gets its own config
-                    config = self.config_manager.get_plugin_config(plugin_id, pipeline_name) or {}
+                    config = (
+                        self.config_manager.get_plugin_config(plugin_id, pipeline_name)
+                        or {}
+                    )
                     # Execute plugin, passing cumulative context
                     new_context = execute_plugin_for_pipeline_with_context(
                         plugin_id=plugin_id,
@@ -97,20 +109,21 @@ class Orchestrator:
                         plugin_executor=self.plugin_executor,
                         logger=self.logger,
                         context=context,
-                        config=config
+                        config=config,
                     )
                     # Update context if plugin returned a new one
                     if new_context is not None:
                         context = new_context
                 except Exception as e:
-                    self.logger.error({
-                        "event": "plugin_error",
-                        "plugin": plugin_id,
-                        "pipeline": pipeline_name,
-                        "hook": hook,
-                        "error": str(e)
-                    })
-
+                    self.logger.error(
+                        {
+                            "event": "plugin_error",
+                            "plugin": plugin_id,
+                            "pipeline": pipeline_name,
+                            "hook": hook,
+                            "error": str(e),
+                        }
+                    )
 
 
 def execute_plugin_for_pipeline_with_context(
@@ -122,7 +135,7 @@ def execute_plugin_for_pipeline_with_context(
     plugin_executor: Any,
     logger: Any,
     context: dict,
-    config: dict
+    config: dict,
 ) -> dict:
     """
     Helper to load, execute a plugin for a pipeline/hook, and allow context mutation.
@@ -130,19 +143,35 @@ def execute_plugin_for_pipeline_with_context(
     """
     plugin_mod = plugin_loader.load(plugin_id)
     pdata = pipelines[pipeline_name]
-    command = pdata.get('command')
-    context['command'] = command if command is not None else None
+    command = pdata.get("command")
+    context["command"] = command if command is not None else None
     # Run plugin
     result = plugin_executor.execute(plugin_mod.run, context, config, pipeline_name)
     # If plugin returns an updated context, use it
-    if isinstance(result, dict) and 'context' in result and isinstance(result['context'], dict):
-        logger.info({
-            "event": "plugin_context_update",
+    if (
+        isinstance(result, dict)
+        and "context" in result
+        and isinstance(result["context"], dict)
+    ):
+        logger.info(
+            {
+                "event": "plugin_context_update",
+                "plugin": plugin_id,
+                "pipeline": pipeline_name,
+                "hook": hook,
+                "updated_keys": list(result["context"].keys()),
+            }
+        )
+        return result["context"]
+    logger.info(
+        {
+            "event": "plugin_run",
             "plugin": plugin_id,
             "pipeline": pipeline_name,
             "hook": hook,
-            "updated_keys": list(result['context'].keys())
-        })
-        return result['context']
-    logger.info({"event": "plugin_run", "plugin": plugin_id, "pipeline": pipeline_name, "hook": hook})
+        }
+    )
     return context
+
+# --- SINGLETON ---
+orchestrator = Orchestrator()

@@ -1,7 +1,9 @@
 """
 Unit test for sample_plugin.
 """
+
 from plugins import sample_plugin
+
 
 def test_sample_plugin_run():
     context = {

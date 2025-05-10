@@ -1,7 +1,9 @@
 """
 Utility for calculating supported token pairs per exchange, given selected tokens and stablecoins.
 """
-from typing import List, Dict
+
+from typing import Dict, List
+
 import ccxt
 
 
@@ -26,7 +28,7 @@ def get_supported_tokenpairs_for_exchange(
                 pairs.append(symbol)
     # Stablecoin-to-stablecoin pairs
     for i, s1 in enumerate(stablecoins):
-        for s2 in stablecoins[i+1:]:
+        for s2 in stablecoins[i + 1 :]:
             for a, b in [(s1, s2), (s2, s1)]:
                 symbol = f"{a}/{b}"
                 if symbol in markets:

@@ -1,7 +1,11 @@
-import numpy as np
-from typing import Dict, Any, Tuple
+from typing import Any, Dict, Tuple
 
-def _setup_phase(closes: np.ndarray, length: int) -> Tuple[np.ndarray, int, float, float]:
+import numpy as np
+
+
+def _setup_phase(
+    closes: np.ndarray, length: int
+) -> Tuple[np.ndarray, int, float, float]:
     setup = np.zeros(length, dtype=int)
     setup_direction = 0
     highest_high = np.nan
@@ -30,7 +34,14 @@ def _setup_phase(closes: np.ndarray, length: int) -> Tuple[np.ndarray, int, floa
                 setup_direction = 0
     return setup, setup_direction, highest_high, lowest_low
 
-def _tdst_and_risk(setup: np.ndarray, setup_direction: int, highest_high: float, lowest_low: float, length: int) -> Tuple[np.ndarray, np.ndarray]:
+
+def _tdst_and_risk(
+    setup: np.ndarray,
+    setup_direction: int,
+    highest_high: float,
+    lowest_low: float,
+    length: int,
+) -> Tuple[np.ndarray, np.ndarray]:
     TDST = np.full(length, np.nan)
     risk_level = np.full(length, np.nan)
     for i in range(length):
@@ -43,7 +54,10 @@ def _tdst_and_risk(setup: np.ndarray, setup_direction: int, highest_high: float,
                 risk_level[i] = lowest_low * 0.95
     return TDST, risk_level
 
-def _countdown_phase(closes: np.ndarray, setup_direction: int, length: int) -> Tuple[np.ndarray, bool]:
+
+def _countdown_phase(
+    closes: np.ndarray, setup_direction: int, length: int
+) -> Tuple[np.ndarray, bool]:
     countdown = np.zeros(length, dtype=int)
     in_countdown = False
     for i in range(length):
@@ -58,23 +72,35 @@ def _countdown_phase(closes: np.ndarray, setup_direction: int, length: int) -> T
                 in_countdown = False
     return countdown, in_countdown
 
-def _build_output(setup: np.ndarray, countdown: np.ndarray, TDST: np.ndarray, risk_level: np.ndarray, in_countdown: bool, length: int) -> Dict[str, Any]:
+
+def _build_output(
+    setup: np.ndarray,
+    countdown: np.ndarray,
+    TDST: np.ndarray,
+    risk_level: np.ndarray,
+    in_countdown: bool,
+    length: int,
+) -> Dict[str, Any]:
     i = length - 1
     return {
-        'setup': int(setup[i]),
-        'countdown': int(countdown[i]),
-        'TDST': float(TDST[i]) if not np.isnan(TDST[i]) else None,
-        'riskLevel': float(risk_level[i]) if not np.isnan(risk_level[i]) else None,
-        'exhaustionSignal': 'Yes' if (in_countdown and abs(countdown[i]) == 13) else 'No',
-        'perfectSetup': 'Yes' if (abs(setup[i]) == 9 and i >= 8) else 'No'
+        "setup": int(setup[i]),
+        "countdown": int(countdown[i]),
+        "TDST": float(TDST[i]) if not np.isnan(TDST[i]) else None,
+        "riskLevel": float(risk_level[i]) if not np.isnan(risk_level[i]) else None,
+        "exhaustionSignal": (
+            "Yes" if (in_countdown and abs(countdown[i]) == 13) else "No"
+        ),
+        "perfectSetup": "Yes" if (abs(setup[i]) == 9 and i >= 8) else "No",
     }
 
+
 def calculate(df, params) -> Tuple[Dict[str, Any], Dict[str, Any]]:
-    closes = df['Close'].values.astype(float)
+    closes = df["Close"].values.astype(float)
     length = len(closes)
     setup, setup_direction, highest_high, lowest_low = _setup_phase(closes, length)
-    TDST, risk_level = _tdst_and_risk(setup, setup_direction, highest_high, lowest_low, length)
+    TDST, risk_level = _tdst_and_risk(
+        setup, setup_direction, highest_high, lowest_low, length
+    )
     countdown, in_countdown = _countdown_phase(closes, setup_direction, length)
     out = _build_output(setup, countdown, TDST, risk_level, in_countdown, length)
     return out, {}
-

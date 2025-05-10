@@ -1,9 +1,12 @@
 """
 health.py: System health/status endpoint for the Flask UI app.
 """
+
 from flask import render_template, session
+
 from services.resource_monitor import ResourceMonitor
-from ui.utils import get_navbar, get_menu, get_plugin_names, require_auth
+from ui.utils import get_menu, get_navbar, get_plugin_names, require_auth
+
 
 def health_view():
     require_auth(session)

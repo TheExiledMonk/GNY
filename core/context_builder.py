@@ -1,17 +1,20 @@
 """
 ContextBuilder: Constructs the context object passed into plugins.
 """
-from services.config_manager import ConfigManager
-from services.logger import get_logger
-from services.job_scheduler import JobScheduler
-from typing import Dict, Any
-from uuid import uuid4
+
 from datetime import datetime
+from typing import Any, Dict
+from uuid import uuid4
+
+from services.config_manager import ConfigManager
+from services.job_scheduler import JobScheduler
+from services.logger import get_logger
 
 # Singleton service instances for context reuse
 global_config_manager = ConfigManager()
 global_job_scheduler = JobScheduler()
 global_logger = get_logger()
+
 
 def build_context(pipeline: str, hook: str) -> Dict[str, Any]:
     """

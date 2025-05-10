@@ -1,22 +1,29 @@
 """
 Gather Plugin Config UI logic - clean separation from handler and HTML.
 """
-from typing import Dict, Any
-from jinja2 import Environment, FileSystemLoader
+
+import logging
 import os
+from typing import Any, Dict
+
 from fastapi import APIRouter
 from fastapi.responses import HTMLResponse
+from jinja2 import Environment, FileSystemLoader
+
+from ui.utils import get_menu, get_navbar, get_plugin_names
+
+from .core import (get_default_config, get_stablecoins_for_exchanges,
+                   get_supported_exchanges, get_tokens_for_exchanges)
 from .tokenpair_utils import get_all_exchange_tokenpairs
-from .core import get_default_config, get_supported_exchanges, get_tokens_for_exchanges, get_stablecoins_for_exchanges
-import logging
-from ui.utils import get_navbar, get_menu, get_plugin_names
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
 env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 
+
 def render_config_ui(context: Dict[str, Any]) -> str:
     template = env.get_template("config.html")
     return template.render(**context)
+
 
 def ensure_list(val: object) -> list:
     if isinstance(val, list):
@@ -24,6 +31,7 @@ def ensure_list(val: object) -> list:
     if val is None:
         return []
     return [val]
+
 
 def normalize_config(config: dict) -> dict:
     for k, v in get_default_config().items():
@@ -37,6 +45,7 @@ def normalize_config(config: dict) -> dict:
     if "indicator_database" not in config:
         config["indicator_database"] = ""
     return config
+
 
 def get_intervals_str_and_update(config: dict) -> str:
     intervals_val = config.get("intervals")
@@ -52,10 +61,19 @@ def get_intervals_str_and_update(config: dict) -> str:
         intervals_str = ""
     return intervals_str
 
+
 def process_form(form, config: dict) -> dict:
     new_config = dict(config)
     # Standard fields
-    for key in ["exchanges", "tokens", "stablecoins", "base_stablecoin", "intervals", "exchange_database", "indicator_database"]:
+    for key in [
+        "exchanges",
+        "tokens",
+        "stablecoins",
+        "base_stablecoin",
+        "intervals",
+        "exchange_database",
+        "indicator_database",
+    ]:
         if key in ["exchanges", "tokens", "stablecoins"]:
             value = form.getlist(key)
             new_config[key] = value if value else []
@@ -72,6 +90,7 @@ def process_form(form, config: dict) -> dict:
         del new_config["pipeline"]
     return new_config
 
+
 def update_tokenpairs(new_config: dict) -> None:
     new_config["exchange_tokenpairs"] = get_all_exchange_tokenpairs(
         new_config.get("exchanges", []),
@@ -79,7 +98,19 @@ def update_tokenpairs(new_config: dict) -> None:
         new_config.get("stablecoins", []),
     )
 
-def build_context(request, config, pipeline, message, all_exchanges, all_tokens, all_stablecoins, intervals_str, navbar=None, menu=None) -> dict:
+
+def build_context(
+    request,
+    config,
+    pipeline,
+    message,
+    all_exchanges,
+    all_tokens,
+    all_stablecoins,
+    intervals_str,
+    navbar=None,
+    menu=None,
+) -> dict:
     ctx = {
         "request": request,
         "plugin": "gather_plugin",
@@ -96,6 +127,7 @@ def build_context(request, config, pipeline, message, all_exchanges, all_tokens,
     if menu is not None:
         ctx["menu"] = menu
     return ctx
+
 
 def handle_config_request(
     request,
@@ -116,17 +148,34 @@ def handle_config_request(
     config = normalize_config(config)
     selected_exchanges = config["exchanges"]
     all_exchanges = get_supported_exchanges()
-    all_tokens = get_tokens_for_exchanges(selected_exchanges) if selected_exchanges else []
-    all_stablecoins = get_stablecoins_for_exchanges(selected_exchanges) if selected_exchanges else []
+    all_tokens = (
+        get_tokens_for_exchanges(selected_exchanges) if selected_exchanges else []
+    )
+    all_stablecoins = (
+        get_stablecoins_for_exchanges(selected_exchanges) if selected_exchanges else []
+    )
     intervals_str = get_intervals_str_and_update(config)
     navbar = get_navbar()
     menu = get_menu(get_plugin_names())
-    ctx = build_context(request, config, pipeline, message, all_exchanges, all_tokens, all_stablecoins, intervals_str, navbar=navbar, menu=menu)
+    ctx = build_context(
+        request,
+        config,
+        pipeline,
+        message,
+        all_exchanges,
+        all_tokens,
+        all_stablecoins,
+        intervals_str,
+        navbar=navbar,
+        menu=menu,
+    )
 
     if request.method == "POST":
         logging.getLogger("gather_plugin").info({"event": "post_received"})
         form = request.form
-        logging.getLogger("gather_plugin").info({"event": "form_parsed", "form": dict(form)})
+        logging.getLogger("gather_plugin").info(
+            {"event": "form_parsed", "form": dict(form)}
+        )
         action = form.get("action")
         new_config = process_form(form, config)
         update_tokenpairs(new_config)
@@ -134,8 +183,16 @@ def handle_config_request(
         config = new_config
         if action == "reload_tokens":
             selected_exchanges = new_config["exchanges"]
-            all_tokens = get_tokens_for_exchanges(selected_exchanges) if selected_exchanges else []
-            all_stablecoins = get_stablecoins_for_exchanges(selected_exchanges) if selected_exchanges else []
+            all_tokens = (
+                get_tokens_for_exchanges(selected_exchanges)
+                if selected_exchanges
+                else []
+            )
+            all_stablecoins = (
+                get_stablecoins_for_exchanges(selected_exchanges)
+                if selected_exchanges
+                else []
+            )
             ctx["all_tokens"] = all_tokens
             ctx["all_stablecoins"] = all_stablecoins
             ctx["config"] = new_config

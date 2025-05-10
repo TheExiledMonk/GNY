@@ -2,12 +2,13 @@
 UnifiedLogger: Central structured logger with Slack integration.
 All logs go to logs/ and are multiprocess/thread safe.
 """
+
+import json
 import logging
 import logging.handlers
-import json
 import os
-from typing import Any, Dict
 from threading import Lock
+from typing import Any, Dict
 
 LOG_DIR = os.path.join(os.path.dirname(__file__), "..", "logs")
 LOG_FILE = os.path.join(LOG_DIR, "orchestrator.log")
@@ -16,16 +17,22 @@ SLACK_WEBHOOK = os.environ.get("SLACK_WEBHOOK_URL")
 _logger_instance = None
 _logger_lock = Lock()
 
+
 class UnifiedLogger:
     def __init__(self):
         os.makedirs(LOG_DIR, exist_ok=True)
         self.logger = logging.getLogger("orchestrator")
         self.logger.setLevel(logging.INFO)
         # Only add handler if it hasn't been added yet
-        if not any(isinstance(h, logging.handlers.RotatingFileHandler) and h.baseFilename == os.path.abspath(LOG_FILE)
-                   for h in self.logger.handlers):
-            handler = logging.handlers.RotatingFileHandler(LOG_FILE, maxBytes=5_000_000, backupCount=5)
-            formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+        if not any(
+            isinstance(h, logging.handlers.RotatingFileHandler)
+            and h.baseFilename == os.path.abspath(LOG_FILE)
+            for h in self.logger.handlers
+        ):
+            handler = logging.handlers.RotatingFileHandler(
+                LOG_FILE, maxBytes=5_000_000, backupCount=5
+            )
+            formatter = logging.Formatter("%(asctime)s %(levelname)s %(message)s")
             handler.setFormatter(formatter)
             self.logger.addHandler(handler)
 
@@ -46,11 +53,13 @@ class UnifiedLogger:
         if level not in ("ERROR", "FATAL"):
             return
         import requests
+
         msg = f"[{level}] {json.dumps(data)}"
         try:
             requests.post(SLACK_WEBHOOK, json={"text": msg})
         except Exception:
             pass
+
 
 def get_logger():
     global _logger_instance

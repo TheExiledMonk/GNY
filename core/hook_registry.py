@@ -1,13 +1,16 @@
 """
 HookRegistry: Maintains mapping from hooks to plugin IDs.
 """
+
 from typing import Dict, List
+
 
 class HookRegistry:
     """
     Central registry for hook to plugin mapping.
     For orchestrator-internal use only.
     """
+
     def __init__(self) -> None:
         self.hook_map: Dict[str, List[str]] = {}
 

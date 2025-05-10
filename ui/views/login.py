@@ -1,8 +1,11 @@
 """
 login.py: Login view for the UI Flask app.
 """
-from flask import request, session, redirect, url_for
+
 import os
+
+from flask import redirect, request, session, url_for
+
 
 def login_view():
     ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")

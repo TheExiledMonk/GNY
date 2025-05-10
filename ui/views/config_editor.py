@@ -1,37 +1,57 @@
 """
 config_editor.py: Load/save plugin configs.
 """
-from flask import request, render_template, session
-from ui.utils import get_navbar, get_menu, get_plugin_names, require_auth
+
 import os
+
 import yaml
+from flask import render_template, request, session
+
 from services.logger import get_logger
+from ui.utils import get_menu, get_navbar, get_plugin_names, require_auth
 
-CONFIG_DIR = os.path.join(os.path.dirname(os.path.dirname(os.path.dirname(__file__))), 'config')
-SYSTEM_YAML_PATH = os.path.join(CONFIG_DIR, 'system.yaml')
-PIPELINES_YAML_PATH = os.path.join(CONFIG_DIR, 'pipelines.yaml')
+CONFIG_DIR = os.path.join(
+    os.path.dirname(os.path.dirname(os.path.dirname(__file__))), "config"
+)
+SYSTEM_YAML_PATH = os.path.join(CONFIG_DIR, "system.yaml")
+PIPELINES_YAML_PATH = os.path.join(CONFIG_DIR, "pipelines.yaml")
 
 
-from typing import Tuple, Optional
+from typing import Optional, Tuple
+
 
 def _read_yaml_file(path: str, logger) -> Tuple[str, Optional[str]]:
     """Read YAML file and return contents or error message."""
     try:
-        with open(path, 'r') as f:
+        with open(path, "r") as f:
             return f.read(), None
     except Exception as e:
-        logger.error({"event": "config_editor_read_error", "file": os.path.basename(path), "error": str(e)})
-        return '', f"Error reading {os.path.basename(path)}: {e}"
+        logger.error(
+            {
+                "event": "config_editor_read_error",
+                "file": os.path.basename(path),
+                "error": str(e),
+            }
+        )
+        return "", f"Error reading {os.path.basename(path)}: {e}"
+
 
 def _save_yaml_file(path: str, content: str, logger) -> Optional[str]:
     """Save YAML file and return error message if any."""
     try:
-        with open(path, 'w') as f:
+        with open(path, "w") as f:
             f.write(content)
         return None
     except Exception as e:
-        logger.error({"event": "config_editor_save_error", "file": os.path.basename(path), "error": str(e)})
+        logger.error(
+            {
+                "event": "config_editor_save_error",
+                "file": os.path.basename(path),
+                "error": str(e),
+            }
+        )
         return f"Error saving {os.path.basename(path)}: {e}"
+
 
 def _validate_yaml(content: str, logger) -> Optional[str]:
     """Validate YAML content and return error message if any."""
@@ -41,6 +61,7 @@ def _validate_yaml(content: str, logger) -> Optional[str]:
     except yaml.YAMLError as e:
         logger.error({"event": "config_editor_yaml_error", "error": str(e)})
         return f"YAML syntax error: {e}"
+
 
 def config_editor_view():
     require_auth(session)

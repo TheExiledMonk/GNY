@@ -1,10 +1,12 @@
-import sys
 import signal
+import sys
 import threading
-from core.orchestrator import Orchestrator
-from services.logger import get_logger
+
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
+
+from core.orchestrator import orchestrator
+from services.logger import get_logger
 from ui.server import app as flask_app
 
 """
@@ -16,21 +18,22 @@ Initializes logger and orchestrator once, and returns proper exit code on error.
 """
 
 _logger = None
-_orchestrator = None
 _flask_thread = None
 _scheduler = None
 
 
 def _graceful_shutdown(signum, frame):
-    global _logger, _orchestrator, _scheduler
+    global _logger, orchestrator, _scheduler
     if _logger:
         _logger.info({"event": "shutdown", "signal": signum})
     print(f"\nReceived signal {signum}. Shutting down gracefully...")
     # Attempt to stop orchestrator threads if possible
     try:
-        if hasattr(_orchestrator, 'thread_manager'):
-            for name in list(_orchestrator.thread_manager.threads.keys()):
-                stop_fn = getattr(_orchestrator.thread_manager, 'stop_pipeline_thread', None)
+        if hasattr(orchestrator, "thread_manager"):
+            for name in list(orchestrator.thread_manager.threads.keys()):
+                stop_fn = getattr(
+                    orchestrator.thread_manager, "stop_pipeline_thread", None
+                )
                 if callable(stop_fn):
                     stop_fn(name)
     except Exception as e:
@@ -42,13 +45,17 @@ def _graceful_shutdown(signum, frame):
     # Stop Flask server (not strictly needed since it's daemonized)
     sys.exit(0)
 
+
 def _run_flask():
     flask_app.run(host="0.0.0.0", port=8080, debug=False, use_reloader=False)
 
+
 def main():
-    global _logger, _orchestrator, _flask_thread, _scheduler
+    global _logger, orchestrator, _flask_thread, _scheduler
     _logger = get_logger()
-    _orchestrator = Orchestrator()
+    # Use the global singleton
+# orchestrator = Orchestrator()
+# Already imported as 'orchestrator' above.
 
     # Setup signal handlers for graceful shutdown
     signal.signal(signal.SIGINT, _graceful_shutdown)
@@ -61,7 +68,7 @@ def main():
 
     # --- APScheduler setup for cron jobs ---
     _scheduler = BackgroundScheduler()
-    for pipeline_name, pdata in _orchestrator.pipelines.items():
+    for pipeline_name, pdata in orchestrator.pipelines.items():
         cron = pdata.get("schedule")
         if cron:
             job_id = f"pipeline_{pipeline_name}"
@@ -70,15 +77,28 @@ def main():
             try:
                 trigger = CronTrigger.from_crontab(cron)
                 _scheduler.add_job(
-                    lambda name=pipeline_name: _orchestrator._run_pipeline(name),
+                    lambda name=pipeline_name: orchestrator._run_pipeline(name),
                     trigger,
                     id=job_id,
                     replace_existing=True,
                     max_instances=1,
                 )
-                _logger.info({"event": "scheduler_job_added", "pipeline": pipeline_name, "cron": cron})
+                _logger.info(
+                    {
+                        "event": "scheduler_job_added",
+                        "pipeline": pipeline_name,
+                        "cron": cron,
+                    }
+                )
             except Exception as e:
-                _logger.error({"event": "scheduler_job_error", "pipeline": pipeline_name, "cron": cron, "error": str(e)})
+                _logger.error(
+                    {
+                        "event": "scheduler_job_error",
+                        "pipeline": pipeline_name,
+                        "cron": cron,
+                        "error": str(e),
+                    }
+                )
     _scheduler.start()
 
     print("Daemon running. Scheduler active. Press Ctrl+C to exit.")
@@ -89,5 +109,7 @@ def main():
     except KeyboardInterrupt:
         _graceful_shutdown(signal.SIGINT, None)
 
+
 if __name__ == "__main__":
-    main()
+   main()
+   # flask_app.run(host="0.0.0.0", port=8080, debug=False, use_reloader=False)

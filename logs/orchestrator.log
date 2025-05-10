@@ -414,3 +414,222 @@
 2025-05-10 06:38:54,341 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
 2025-05-10 06:38:54,348 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
 2025-05-10 06:38:54,348 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:00:00,003 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "current_1h"}
+2025-05-10 07:00:00,003 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "current_1h"}
+2025-05-10 07:00:00,003 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "current_1h"}
+2025-05-10 07:00:00,003 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "current_1h", "hook": "gather"}
+2025-05-10 07:00:00,004 ERROR {"event": "plugin_error", "plugin": "fetcher_plugin", "pipeline": "current_1h", "hook": "fetcher", "error": "No module named 'plugins.fetcher_plugin'"}
+2025-05-10 07:00:00,005 ERROR {"event": "plugin_error", "plugin": "gap_plugin", "pipeline": "current_1h", "hook": "gap", "error": "No module named 'plugins.gap_plugin'"}
+2025-05-10 07:00:00,005 ERROR {"event": "plugin_error", "plugin": "aggregate_allmarkets_plugin", "pipeline": "current_1h", "hook": "aggregate_allmarkets", "error": "No module named 'plugins.aggregate_allmarkets_plugin'"}
+2025-05-10 07:00:00,006 ERROR {"event": "plugin_error", "plugin": "indicators_plugin", "pipeline": "current_1h", "hook": "indicators", "error": "module 'plugins.indicators_plugin' has no attribute 'run'"}
+2025-05-10 07:03:37,680 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:03:41,729 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:03:41,729 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:03:41,730 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:04:05,876 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:04:05,882 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "framework_check"]}
+2025-05-10 07:04:05,883 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:06:16,299 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:06:18,205 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:06:18,206 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:06:18,206 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:06:26,822 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:06:26,941 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "framework_check"]}
+2025-05-10 07:06:26,943 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:09:30,576 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:09:32,522 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:09:32,524 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:09:32,524 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:09:38,088 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:09:38,114 ERROR {"event": "plugin_error", "error": "name 'time' is not defined"}
+2025-05-10 07:09:38,114 ERROR {"event": "plugin_error", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "error": "name 'time' is not defined"}
+2025-05-10 07:09:38,115 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:10:30,019 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:11:34,166 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:11:34,168 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:11:34,168 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:11:39,770 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:11:40,146 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "framework_check"]}
+2025-05-10 07:11:40,147 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:13:48,392 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:13:49,752 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:13:49,754 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:13:49,755 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:13:56,544 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:13:56,920 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "framework_check"]}
+2025-05-10 07:13:56,922 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:18:03,310 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:18:04,714 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:18:04,715 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:18:04,715 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:18:17,562 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:18:17,568 ERROR {"event": "plugin_error", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "error": "expected 'except' or 'finally' block (__init__.py, line 111)"}
+2025-05-10 07:18:17,569 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:19:24,892 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:21:24,875 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:21:24,875 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:21:24,879 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:21:30,903 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:21:30,910 ERROR {"event": "plugin_error", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "error": "expected 'except' or 'finally' block (__init__.py, line 111)"}
+2025-05-10 07:21:30,912 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:22:47,655 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:23:57,906 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:23:57,907 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:23:57,908 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:24:02,108 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:24:02,147 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 07:24:02,149 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:24:17,626 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:24:45,356 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:24:45,357 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:24:45,358 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:24:49,734 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:24:49,768 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 07:24:49,769 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:28:42,428 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:31:08,362 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:31:08,363 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:31:08,364 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:31:13,510 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:31:13,568 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 07:31:13,569 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:45:30,029 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:45:39,468 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:45:39,469 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:45:39,470 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:45:46,714 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:45:46,763 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 07:45:46,764 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:51:27,194 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 07:51:28,624 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 07:51:28,624 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 07:51:28,626 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 07:51:35,930 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 07:51:35,977 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 07:51:35,979 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 07:52:17,283 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:03:59,710 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:03:59,711 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:03:59,711 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:04:16,083 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:04:16,132 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:04:16,133 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:08:28,589 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:08:30,203 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:08:30,204 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:08:30,204 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:08:35,031 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:08:35,087 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:08:35,088 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:09:36,353 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:09:37,884 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:09:37,884 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:09:37,886 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:09:46,089 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:09:46,234 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:09:46,236 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:09:46,585 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:09:46,703 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:09:46,703 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:10:36,676 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:10:38,150 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:10:38,152 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:10:38,152 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:10:44,274 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:10:44,673 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:10:44,675 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:13:38,376 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:13:39,771 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:13:39,772 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:13:39,773 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:13:44,973 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:13:45,353 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:13:45,354 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:19:14,950 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:19:22,685 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:19:22,686 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:19:22,686 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:19:33,409 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:21:45,465 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:24:19,444 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:24:19,445 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:24:19,445 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:24:33,127 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:25:12,946 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:25:16,577 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:25:16,578 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:25:16,579 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:25:35,021 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:25:44,997 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:25:53,021 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:25:53,022 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:25:53,024 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:27:56,400 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:27:58,211 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:27:58,212 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:27:58,213 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:28:02,979 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:29:59,917 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:30:03,971 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:30:03,972 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:30:03,973 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:30:09,060 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:32:27,894 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:33:15,530 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:33:15,530 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:33:15,533 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:33:21,542 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:36:33,389 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:36:48,537 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:39:27,906 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:43:52,230 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:44:22,497 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:44:22,498 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:44:22,499 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:44:30,025 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:45:18,194 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:45:24,799 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:45:24,801 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:45:24,801 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:45:30,584 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:49:28,039 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:51:37,208 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:51:37,209 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:51:37,210 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:51:43,922 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:51:52,958 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:53:11,661 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:53:11,662 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:53:11,662 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:53:20,092 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:54:44,969 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:54:44,970 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:55:16,633 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:55:18,096 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:55:18,098 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:55:18,098 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:55:22,365 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:55:38,746 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:55:38,748 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:57:15,621 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:57:17,159 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:57:17,160 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:57:17,160 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:57:25,211 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:57:32,586 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:57:32,588 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 08:59:19,352 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 08:59:21,564 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 08:59:21,565 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 08:59:21,566 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 08:59:30,969 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 08:59:48,373 INFO {"event": "plugin_context_update", "plugin": "framework_check_plugin", "pipeline": "debug", "hook": "framework_check", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check"]}
+2025-05-10 08:59:48,375 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "jobs", "framework_check", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:00:00,002 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "current_1h"}
+2025-05-10 09:00:00,002 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "current_1h"}
+2025-05-10 09:00:00,002 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "current_1h"}
+2025-05-10 09:00:00,002 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "current_1h", "hook": "gather"}
+2025-05-10 09:00:00,003 ERROR {"event": "plugin_error", "plugin": "fetcher_plugin", "pipeline": "current_1h", "hook": "fetcher", "error": "No module named 'plugins.fetcher_plugin'"}
+2025-05-10 09:00:00,003 ERROR {"event": "plugin_error", "plugin": "gap_plugin", "pipeline": "current_1h", "hook": "gap", "error": "No module named 'plugins.gap_plugin'"}
+2025-05-10 09:00:00,004 ERROR {"event": "plugin_error", "plugin": "aggregate_allmarkets_plugin", "pipeline": "current_1h", "hook": "aggregate_allmarkets", "error": "No module named 'plugins.aggregate_allmarkets_plugin'"}
+2025-05-10 09:00:00,005 ERROR {"event": "plugin_error", "plugin": "indicators_plugin", "pipeline": "current_1h", "hook": "indicators", "error": "module 'plugins.indicators_plugin' has no attribute 'run'"}

@@ -1,9 +1,12 @@
 """
 server.py: Flask app entrypoint for the Orchestration Framework UI.
 """
-from flask import Flask
-from ui.routes import register_routes
+
 import os
+
+from flask import Flask
+
+from ui.routes import register_routes
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "supersecret")

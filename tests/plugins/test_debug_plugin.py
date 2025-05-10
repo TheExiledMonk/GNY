@@ -1,10 +1,13 @@
 """
 Unit tests for debug_plugin.
 """
+
 import os
-import tempfile
 import shutil
+import tempfile
+
 from plugins.debug_plugin import run, status
+
 
 def test_run_logs_to_file(monkeypatch):
     # Setup temp log file
@@ -19,6 +22,7 @@ def test_run_logs_to_file(monkeypatch):
         with open(log_path) as f:
             content = f.read()
         assert "foo" in content and "bar" in content and "testpipe" in content
+
 
 def test_status_reads_log(monkeypatch):
     # Setup temp log file

@@ -2,9 +2,12 @@
 ConfigManager: Unified interface for reading/updating all configs (system, pipeline, plugin).
 Threadsafe, cache-aware, async-compatible.
 """
+
+from typing import Any, Optional
+
 from db.config_storage import ConfigStorage
 from db.plugin_config_repo import PluginConfigRepo
-from typing import Any, Optional
+
 
 class ConfigManager:
     def __init__(self, storage: Optional[ConfigStorage] = None):

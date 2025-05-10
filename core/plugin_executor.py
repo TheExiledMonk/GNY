@@ -1,15 +1,21 @@
 """
 PluginExecutor: Executes plugin.run() and applies error handling.
 """
-from services.logger import get_logger
+
 from typing import Any, Callable
+
+from services.logger import get_logger
+
 
 class PluginExecutor:
     """Executes plugin run logic with error handling."""
+
     def __init__(self) -> None:
         self.logger = get_logger()
 
-    def execute(self, plugin_run: Callable, context: dict, config: dict, pipeline: str) -> Any:
+    def execute(
+        self, plugin_run: Callable, context: dict, config: dict, pipeline: str
+    ) -> Any:
         try:
             return plugin_run(context, config, pipeline)
         except Exception as e:

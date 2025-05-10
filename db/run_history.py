@@ -1,16 +1,22 @@
 """
 RunHistory: Tracks execution logs and status in MongoDB via ConfigStorage.
 """
-from db.config_storage import ConfigStorage
-from typing import Dict, Any
+
 from datetime import datetime
+from typing import Any, Dict
+
+from db.config_storage import ConfigStorage
+
 
 class RunHistory:
     """Tracks pipeline/plugin execution status and logs."""
+
     def __init__(self, config_storage: ConfigStorage):
         self._storage = config_storage
 
-    def log_run(self, pipeline: str, plugin: str, status: str, details: Dict[str, Any]) -> None:
+    def log_run(
+        self, pipeline: str, plugin: str, status: str, details: Dict[str, Any]
+    ) -> None:
         entry = {
             "pipeline": pipeline,
             "plugin": plugin,
