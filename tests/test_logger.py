@@ -5,9 +5,6 @@ import os
 import json
 import tempfile
 import shutil
-import logging
-import types
-import pytest
 from services.logger import UnifiedLogger
 
 def test_info_logs_to_file(monkeypatch):

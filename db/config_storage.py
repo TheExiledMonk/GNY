@@ -3,13 +3,96 @@ ConfigStorage: Threadsafe MongoDB-backed config storage with caching.
 Plugins must never access the DB directly; all access is via this class.
 """
 from threading import RLock, Thread
-from typing import Any, Dict, Optional
+from typing import Any, Dict
 from pymongo import MongoClient
 import copy
 import janus
 import asyncio
 from collections import defaultdict
 import time
+
+
+class ConfigCache:
+    """
+    Threadsafe cache for config storage.
+    """
+    def __init__(self):
+        self._cache: Dict[str, Any] = {}
+        self._lock = RLock()
+
+    def get(self, key: str) -> Any:
+        """
+        Fetch a value from the cache.
+        """
+        with self._lock:
+            return copy.deepcopy(self._cache.get(key))
+
+    def set(self, key: str, value: Any) -> None:
+        """
+        Set a value in the cache.
+        """
+        with self._lock:
+            self._cache[key] = copy.deepcopy(value)
+
+    def invalidate(self, key: str) -> None:
+        """
+        Invalidate a key in the cache.
+        """
+        with self._lock:
+            if key in self._cache:
+                del self._cache[key]
+
+    def invalidate_prefix(self, prefix: str) -> None:
+        """
+        Invalidate all keys with a given prefix in the cache.
+        """
+        with self._lock:
+            keys_to_remove = [k for k in self._cache if k.startswith(prefix)]
+            for k in keys_to_remove:
+                del self._cache[k]
+
+
+class BulkBufferManager:
+    """
+    Manager for bulk buffer logic.
+    """
+    def __init__(self, client: MongoClient):
+        self._client = client
+        self._bulk_buffers = defaultdict(list)  # key: (collection, db_name)
+        self._bulk_buffer_lock = RLock()
+        self._bulk_flush_interval = 2.0  # seconds
+        self._bulk_flush_maxsize = 100
+        self._bulk_last_flush = defaultdict(lambda: time.monotonic())
+        self._bulk_flush_task = None
+
+    async def async_buffered_insert(self, collection: str, doc: dict, db_name: str = None) -> None:
+        """
+        Buffer documents for bulk insert. Flushes buffer on interval or max size.
+        """
+        key = (collection, db_name)
+        with self._bulk_buffer_lock:
+            self._bulk_buffers[key].append(doc)
+            if len(self._bulk_buffers[key]) >= self._bulk_flush_maxsize:
+                await self._flush_bulk_buffer(collection, db_name)
+        # Timed flush is handled by background task
+
+    async def _bulk_flush_daemon(self):
+        while True:
+            await asyncio.sleep(self._bulk_flush_interval)
+            with self._bulk_buffer_lock:
+                for (collection, db_name), buf in list(self._bulk_buffers.items()):
+                    if buf and (time.monotonic() - self._bulk_last_flush[(collection, db_name)] >= self._bulk_flush_interval):
+                        await self._flush_bulk_buffer(collection, db_name)
+
+    async def _flush_bulk_buffer(self, collection: str, db_name: str = None):
+        key = (collection, db_name)
+        with self._bulk_buffer_lock:
+            buf = self._bulk_buffers[key]
+            if buf:
+                col = self._client[db_name][collection] if db_name else self._client[collection]
+                col.insert_many(buf)
+                self._bulk_buffers[key] = []
+                self._bulk_last_flush[key] = time.monotonic()
 
 
 class ConfigStorage:
@@ -21,30 +104,24 @@ class ConfigStorage:
       - Use async methods (async_get/async_insert/async_update/async_delete) for asyncio code.
       - Use async_bulk_insert/async_buffered_insert for efficient bulk ingestion.
     """
-    def __init__(self, mongo_uri: str = None, db_name: str = None):
-        # Read from environment variables if not provided
+    def __init__(self, mongo_uri: str = None, db_name: str = None) -> None:
+        """Initialize ConfigStorage with MongoDB connection, cache, and bulk buffer manager."""
         import os
         mongo_uri = mongo_uri or os.getenv("MONGO_URI", "mongodb://localhost:27017")
         db_name = db_name or os.getenv("MONGO_DB", "orchestrator")
         self._client = MongoClient(mongo_uri, connect=True)
         self._db = self._client[db_name]
+        self._cache = ConfigCache()
+        self._bulk_buffer_manager = BulkBufferManager(self._client)
         self._lock = RLock()
-        self._cache: Dict[str, Any] = {}
         self._queue = janus.Queue()
         self._stop_thread = False
         self._thread = Thread(target=self._worker, daemon=True)
         self._thread.start()
-        # --- Bulk buffer ---
-        self._bulk_buffers = defaultdict(list)  # key: (collection, db_name)
-        self._bulk_buffer_lock = RLock()
-        self._bulk_flush_interval = 2.0  # seconds
-        self._bulk_flush_maxsize = 100
-        self._bulk_last_flush = defaultdict(lambda: time.monotonic())
-        self._bulk_flush_task = None
         try:
             loop = asyncio.get_event_loop()
             if loop.is_running():
-                self._bulk_flush_task = loop.create_task(self._bulk_flush_daemon())
+                self._bulk_buffer_manager._bulk_flush_task = loop.create_task(self._bulk_buffer_manager._bulk_flush_daemon())
         except Exception:
             pass
 
@@ -101,10 +178,6 @@ class ConfigStorage:
     def close(self):
         self._stop_thread = True
         self._thread.join()
-        # Flush all bulk buffers
-        if self._bulk_buffers:
-            for key in list(self._bulk_buffers.keys()):
-                self._flush_bulk_buffer(*key)
 
     async def async_bulk_insert(self, collection: str, docs: list, db_name: str = None) -> Any:
         """
@@ -117,71 +190,40 @@ class ConfigStorage:
         def _bulk():
             col = self._get_collection(collection, db_name)
             result = col.insert_many(docs)
-            self._invalidate_cache(collection, {}, db_name)
+            self._cache.invalidate_prefix(f"{collection}:{db_name}:")
             return result.inserted_ids
         loop.run_in_executor(None, lambda: fut.set_result(_bulk()))
         return await fut
 
     async def async_buffered_insert(self, collection: str, doc: dict, db_name: str = None) -> None:
-        """
-        Buffer documents for bulk insert. Flushes buffer on interval or max size.
-        """
-        key = (collection, db_name)
-        with self._bulk_buffer_lock:
-            self._bulk_buffers[key].append(doc)
-            if len(self._bulk_buffers[key]) >= self._bulk_flush_maxsize:
-                self._flush_bulk_buffer(collection, db_name)
-        # Timed flush is handled by background task
-
-    async def _bulk_flush_daemon(self):
-        while True:
-            await asyncio.sleep(self._bulk_flush_interval)
-            with self._bulk_buffer_lock:
-                for (collection, db_name), buf in list(self._bulk_buffers.items()):
-                    if buf and (time.monotonic() - self._bulk_last_flush[(collection, db_name)] >= self._bulk_flush_interval):
-                        self._flush_bulk_buffer(collection, db_name)
-
-    def _flush_bulk_buffer(self, collection: str, db_name: str = None):
-        key = (collection, db_name)
-        with self._bulk_buffer_lock:
-            buf = self._bulk_buffers[key]
-            if buf:
-                col = self._get_collection(collection, db_name)
-                col.insert_many(buf)
-                self._invalidate_cache(collection, {}, db_name)
-                self._bulk_buffers[key] = []
-                self._bulk_last_flush[key] = time.monotonic()
-
-    def _get_collection(self, name: str, db_name: str = None):
-        if db_name:
-            return self._client[db_name][name]
-        return self._db[name]
+        await self._bulk_buffer_manager.async_buffered_insert(collection, doc, db_name)
 
     def get(self, collection: str, query: dict = None, db_name: str = None) -> Any:
         """
         Fetch documents from the specified collection (and database if db_name is provided).
         """
         key = f"{collection}:{str(query)}:{db_name}"
+        cached = self._cache.get(key)
+        if cached is not None:
+            return cached
+        col = self._get_collection(collection, db_name)
+        result = list(col.find(query or {}))
+        self._cache.set(key, result)
+        return result
+
+    def _get_collection(self, name: str, db_name: str = None):
+        if db_name:
+            return self._client[db_name][name]
+        return self._db[name]
+
         with self._lock:
-            if key in self._cache:
-                return copy.deepcopy(self._cache[key])
+            cached = self._cache.get(key)
+            if cached is not None:
+                return cached
             col = self._get_collection(collection, db_name)
             result = list(col.find(query or {}))
-            self._cache[key] = copy.deepcopy(result)
+            self._cache.set(key, result)
             return result
-
-    def _invalidate_cache(self, collection: str, query: dict = None, db_name: str = None):
-        key = f"{collection}:{str(query)}:{db_name}"
-        prefix = f"{collection}:{db_name}:"
-        with self._lock:
-            # Remove the exact key
-            if key in self._cache:
-                del self._cache[key]
-            # Remove any old-style prefix keys for this collection/db
-            keys_to_remove = [k for k in self._cache if k.startswith(prefix)]
-            for k in keys_to_remove:
-                del self._cache[k]
-
 
     def insert(self, collection: str, document: dict, upsert: bool = False, db_name: str = None) -> Any:
         """
@@ -200,7 +242,10 @@ class ConfigStorage:
             else:
                 result = col.insert_one(document)
                 inserted_id = result.inserted_id
-        self._invalidate_cache(collection, {'_id': document.get('_id')}, db_name)
+            cache_key = f"{collection}:{str({'_id': document.get('_id')})}:{db_name}"
+            self._cache.invalidate(cache_key)
+            self._cache.invalidate_prefix(f"{collection}:{db_name}:")
+            return inserted_id
         return inserted_id
 
 
@@ -215,7 +260,9 @@ class ConfigStorage:
                 result = col.replace_one(query, update, upsert=True)
             else:
                 result = col.update_many(query, {"$set": update})
-        self._invalidate_cache(collection, query, db_name)
+        cache_key = f"{collection}:{str(query)}:{db_name}"
+        self._cache.invalidate(cache_key)
+        self._cache.invalidate_prefix(f"{collection}:{db_name}:")
         return result.modified_count
 
 
@@ -226,6 +273,8 @@ class ConfigStorage:
         with self._lock:
             col = self._get_collection(collection, db_name)
             result = col.delete_many(query)
-        self._invalidate_cache(collection, query, db_name)
+        cache_key = f"{collection}:{str(query)}:{db_name}"
+        self._cache.invalidate(cache_key)
+        self._cache.invalidate_prefix(f"{collection}:{db_name}:")
         return result.deleted_count
 

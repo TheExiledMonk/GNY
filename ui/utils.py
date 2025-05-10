@@ -2,7 +2,7 @@
 utils.py: Shared UI helper functions (navbar, menu, plugin names, auth).
 """
 import os
-from typing import List, Optional
+from typing import Optional
 
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin1234")

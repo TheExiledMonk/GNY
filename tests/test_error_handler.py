@@ -1,7 +1,6 @@
 """
 Unit tests for core.error_handler
 """
-import pytest
 from core.error_handler import ErrorHandler
 
 def test_error_handler_logs(monkeypatch):

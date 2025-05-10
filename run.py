@@ -1,10 +1,3 @@
-"""
-Main entrypoint for the Execution Orchestration Framework.
-"""
-"""
-Main entrypoint for the Execution Orchestration Framework.
-Initializes logger and orchestrator once, and returns proper exit code on error.
-"""
 import sys
 import signal
 import threading
@@ -13,6 +6,14 @@ from services.logger import get_logger
 from apscheduler.schedulers.background import BackgroundScheduler
 from apscheduler.triggers.cron import CronTrigger
 from ui.server import app as flask_app
+
+"""
+Main entrypoint for the Execution Orchestration Framework.
+"""
+"""
+Main entrypoint for the Execution Orchestration Framework.
+Initializes logger and orchestrator once, and returns proper exit code on error.
+"""
 
 _logger = None
 _orchestrator = None

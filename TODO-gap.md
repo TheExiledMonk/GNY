@@ -5,6 +5,7 @@ This checklist covers the steps needed to implement the gap plugin.
 ## 1. Receive and Parse Configuration
 - [ ] Receive configuration from gather: exchanges, tokens, intervals.
 - [ ] Parse and validate the configuration.
+- [ ] Check for `context['command']` in the plugin and parse/handle command-line arguments if present.
 
 ## 2. Gap Detection
 - [ ] For each exchange/token/interval in the config, scan the database for missing candle intervals (gaps) using the database specified by gather.

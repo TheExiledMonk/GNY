@@ -2,7 +2,6 @@
 Tests for core.thread_manager
 """
 from core.thread_manager import ThreadManager
-import threading
 import time
 
 def test_thread_manager_starts_thread():

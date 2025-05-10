@@ -3,8 +3,9 @@
 <head>
     <title>GNY DataWarehouse NexGen</title>
     <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/gny_style.css">
 </head>
-<body style="margin:0;font-family:sans-serif;background:#f6f8fb;">
+<body>
     {{ navbar|safe }}
     {{ menu|safe }}
 
@@ -12,14 +13,43 @@
       <h2 style="margin-top:0; color:#1557a6;">Pipelines</h2>
       <ul style="list-style:none; padding:0;">
         {% for p in pipelines %}
-        <li style="margin-bottom:0.7em; display:flex; align-items:center; justify-content:space-between; max-width:350px;">
-          <span style="font-size:1.08em;">{{ p }}</span>
+        <li style="margin-bottom:1.2em; display:flex; align-items:flex-start; justify-content:space-between; max-width:600px; gap:1.2em;">
+          <div>
+            <span style="font-size:1.08em; font-weight:500;">{{ p.name }}</span>
+            {% if p.schedule %}
+              <div style="font-size:0.98em; color:#1557a6; margin-top:0.2em;">
+                <span>Schedule: <code>{{ p.schedule }}</code></span><br>
+                <span>Next Run: {{ p.next_run }}</span><br>
+                <span>Countdown: <span class="countdown" data-seconds="{{ p.seconds_remaining }}" id="countdown-{{ loop.index }}"></span></span>
+              </div>
+            {% endif %}
+          </div>
           <form method="post" action="/trigger" style="display:inline; margin:0;">
-            <input type="hidden" name="pipeline" value="{{ p }}" />
+            <input type="hidden" name="pipeline" value="{{ p.name }}" />
             <button style="background:#1557a6; color:#fff; border:none; padding:0.3em 1.1em; border-radius:4px; font-weight:500; cursor:pointer;">Trigger</button>
           </form>
         </li>
         {% endfor %}
+<script>
+function updateCountdowns() {
+  document.querySelectorAll('.countdown').forEach(function(el) {
+    let secs = parseInt(el.getAttribute('data-seconds'));
+    if (isNaN(secs) || secs == null) { el.textContent = 'N/A'; return; }
+    if (secs <= 0) { el.textContent = 'Due'; return; }
+    let h = Math.floor(secs / 3600);
+    let m = Math.floor((secs % 3600) / 60);
+    let s = secs % 60;
+    let out = '';
+    if (h > 0) out += h + 'h ';
+    if (m > 0 || h > 0) out += m + 'm ';
+    out += s + 's';
+    el.textContent = out;
+    el.setAttribute('data-seconds', secs - 1);
+  });
+}
+setInterval(updateCountdowns, 1000);
+window.onload = updateCountdowns;
+</script>
       </ul>
     </div>
 </body>

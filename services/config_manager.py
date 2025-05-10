@@ -4,7 +4,7 @@ Threadsafe, cache-aware, async-compatible.
 """
 from db.config_storage import ConfigStorage
 from db.plugin_config_repo import PluginConfigRepo
-from typing import Any, Dict, Optional
+from typing import Any, Optional
 
 class ConfigManager:
     def __init__(self, storage: Optional[ConfigStorage] = None):

@@ -2,7 +2,6 @@ import talib
 import numpy as np
 
 def calculate(df, params):
-    period = params.get('Period', 50)
     fastk_period = params.get('FastK_Period', 5)
     slowk_period = params.get('SlowK_Period', 3)
     slowd_period = params.get('SlowD_Period', 3)

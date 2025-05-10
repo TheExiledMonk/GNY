@@ -100,6 +100,11 @@ FAIL_HARD = False
 
 def run(context, config):
     log = context["services"]["log"]
+    # Check for pipeline command
+    command = context.get('command')
+    if command:
+        log.info({"event": "plugin_command", "command": command})
+        # Parse and handle command-line arguments here
     log.info({"event": "sample_plugin_run", "config": config})
     # Your plugin logic here
     return {"status": "success"}

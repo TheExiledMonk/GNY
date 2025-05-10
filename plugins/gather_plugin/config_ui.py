@@ -1,10 +1,15 @@
 """
 Gather Plugin Config UI logic - clean separation from handler and HTML.
 """
-from typing import List, Dict, Any
-from fastapi import Request
+from typing import Dict, Any
 from jinja2 import Environment, FileSystemLoader
 import os
+from fastapi import APIRouter
+from fastapi.responses import HTMLResponse
+from .tokenpair_utils import get_all_exchange_tokenpairs
+from .core import get_default_config, get_supported_exchanges, get_tokens_for_exchanges, get_stablecoins_for_exchanges
+import logging
+from ui.utils import get_navbar, get_menu, get_plugin_names
 
 TEMPLATE_DIR = os.path.join(os.path.dirname(__file__), "templates")
 env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
@@ -12,14 +17,6 @@ env = Environment(loader=FileSystemLoader(TEMPLATE_DIR))
 def render_config_ui(context: Dict[str, Any]) -> str:
     template = env.get_template("config.html")
     return template.render(**context)
-
-from fastapi import APIRouter, Request
-from fastapi.responses import HTMLResponse
-from typing import Any, Dict
-from .tokenpair_utils import get_all_exchange_tokenpairs
-from .core import get_default_config, get_supported_exchanges, get_tokens_for_exchanges, get_stablecoins_for_exchanges
-import logging
-
 
 def ensure_list(val: object) -> list:
     if isinstance(val, list):
@@ -122,7 +119,6 @@ def handle_config_request(
     all_tokens = get_tokens_for_exchanges(selected_exchanges) if selected_exchanges else []
     all_stablecoins = get_stablecoins_for_exchanges(selected_exchanges) if selected_exchanges else []
     intervals_str = get_intervals_str_and_update(config)
-    from ui.utils import get_navbar, get_menu, get_plugin_names
     navbar = get_navbar()
     menu = get_menu(get_plugin_names())
     ctx = build_context(request, config, pipeline, message, all_exchanges, all_tokens, all_stablecoins, intervals_str, navbar=navbar, menu=menu)

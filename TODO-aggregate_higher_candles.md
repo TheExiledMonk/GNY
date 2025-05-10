@@ -5,6 +5,7 @@ This checklist covers the steps needed to implement the aggregate_higher_candles
 ## 1. Receive and Parse Configuration
 - [ ] Receive configuration: exchanges, tokens, intervals, and database settings (from gather).
 - [ ] Parse and validate the configuration.
+- [ ] Check for `context['command']` in the plugin and parse/handle command-line arguments if present.
 
 ## 2. Base Candle Retrieval
 - [ ] For each exchange/token/interval, retrieve the base/common denominator candles from the configured database.

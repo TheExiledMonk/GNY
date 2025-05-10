@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Config Editor - GNY DataWarehouse NexGen</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/gny_style.css">
+</head>
+<body>
+    {{ navbar|safe }}
+    {{ menu|safe }}
+    <div class="main-content">
+        <h2 class="main-title">System & Pipeline Config Editor</h2>
+        {% if error %}
+        <div class="error-msg">{{ error }}</div>
+        {% endif %}
+        {% if message %}
+        <div class="success-msg">{{ message }}</div>
+        {% endif %}
+        <form method="post" action="/config" autocomplete="off" class="config-form">
+            <div class="config-group">
+                <label class="config-label" for="system_yaml">system.yaml</label>
+                <textarea id="system_yaml" name="system_yaml" class="config-textarea">{{ system_yaml }}</textarea>
+            </div>
+            <div class="config-group">
+                <label class="config-label" for="pipelines_yaml">pipelines.yaml</label>
+                <textarea id="pipelines_yaml" name="pipelines_yaml" class="config-textarea">{{ pipelines_yaml }}</textarea>
+            </div>
+            <button type="submit" class="config-save-btn">Save All</button>
+        </form>
+    </div>
+</body>
+</html>

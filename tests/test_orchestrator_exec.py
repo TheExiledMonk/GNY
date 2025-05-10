@@ -1,9 +1,7 @@
 """
 Tests for core.orchestrator pipeline execution and error handling.
 """
-import pytest
 from core.orchestrator import Orchestrator
-from core.thread_manager import ThreadManager
 
 def test_orchestrator_thread_start(monkeypatch):
     orch = Orchestrator()

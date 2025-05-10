@@ -1,6 +1,5 @@
 import importlib
 import os
-import pandas as pd
 
 def load_indicator_plugins(indicator_dir):
     plugins = {}

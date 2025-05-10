@@ -2,7 +2,7 @@
 ContextBuilder: Constructs the context object passed into plugins.
 """
 from services.config_manager import ConfigManager
-from services.logger import get_logger, UnifiedLogger
+from services.logger import get_logger
 from services.job_scheduler import JobScheduler
 from typing import Dict, Any
 from uuid import uuid4

@@ -2,7 +2,6 @@
 ErrorHandler: Logs and handles plugin exceptions.
 """
 from services.logger import get_logger
-from typing import Any
 
 class ErrorHandler:
     """Handles and logs errors from plugins or core."""

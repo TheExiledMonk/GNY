@@ -2,7 +2,6 @@
 Unit tests for db.run_history
 """
 from db.run_history import RunHistory
-import types
 
 class FakeStorage:
     def __init__(self):

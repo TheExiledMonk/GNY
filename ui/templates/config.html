@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>System Config - GNY DataWarehouse NexGen</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/gny_style.css">
+</head>
+<body>
+    {{ navbar|safe }}
+    {{ menu|safe }}
+    <div class="main-content">
+      <h2 class="main-title">System Config</h2>
+      <form method="post" class="config-form">
+        {% for section, values in config.items() %}
+          <h3 class="config-section">{{ section|capitalize }}</h3>
+          <table class="config-table">
+            {% for k, v in values.items() %}
+              <tr>
+                <td class="config-key">{{ k }}</td>
+                <td class="config-value">
+                  <input type="text" name="{{ section }}.{{ k }}" value="{{ v }}" class="config-input" />
+                </td>
+              </tr>
+            {% endfor %}
+          </table>
+        {% endfor %}
+        <button type="submit" class="config-save-btn">Save</button>
+      </form>
+    </div>
+</body>
+</html>

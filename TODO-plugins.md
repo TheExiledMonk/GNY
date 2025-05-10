@@ -5,7 +5,9 @@ This document tracks the main plugins and their current status or next steps.
 ## Plugins
 
 - **gather**: ✅ Done
+    - [ ] Check for `context['command']` in the plugin and handle command-line arguments as needed.
 - **fetcher**: 🔄 Receives configuration from gather (list of exchanges, tokens, intervals, database, base stablecoin, etc.).
+    - [ ] Check for `context['command']` in the plugin and handle command-line arguments as needed.
     - For the 'current' pipeline: fetches all required intervals for the last 24 hours to patch any missing candles.
     - For pipelines including 'historical' (historical or fetch_historical):
         - Start at 2025-01-01 and attempt to fetch 1 candle for each exchange/token/interval.
@@ -19,9 +21,11 @@ This document tracks the main plugins and their current status or next steps.
         - Store the fetched candles in the configured database (database name set in the plugin's config page). The collection name will always be <exchangename>_<token><stablecoin>_<interval>.
 
 - **gap**: 🔄 Checks each exchange/token pair in the database for gaps in any interval. If gaps are found, tries to fetch the missing data from the exchange. Receives configuration (including database) from gather. Pipeline type does not matter.
+    - [ ] Check for `context['command']` in the plugin and handle command-line arguments as needed.
 - **aggregate_higher_candles**: 🔄 Calculates higher interval candles from the base/common denominator candles in the database. If some intervals cannot be calculated (e.g., 50m, 1h present but need 6h, 1d), only calculate those that align perfectly (e.g., 6h from 00:00-05:59:59.999, 1d every 24h at 00:00). Stores results in the database specified by gather. If an interval cannot be calculated, the fetcher should have already fetched it.
 - **aggregate_allmarkets**: 🔄 Calculates synthetic all-market candles (OHLCV) for each pair (e.g., BTC/USDT) across all exchanges, converting all to the base stablecoin (e.g., USDT) using volume-weighted conversion rates (e.g., USDC/USDT). Two modes: current (only from fetcher candles), historical (all candles in DB). Stores results as allmarket_<pair>_<interval> in the database specified by gather.
 - **indicators**: 🔄 For 'current', fetch period+1 candles for each indicator (from indicators.yaml) and calculate the indicator, storing results in the indicator_database from config. For 'historical', process all stored data in the database for each allmarkets tokenpair/interval, storing results in collections named allmarkets_<tokenpair>_<interval>_<indicator>.
+    - [ ] Check for `context['command']` in the plugin and handle command-line arguments as needed.
 
 ---
 

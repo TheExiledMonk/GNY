@@ -1,8 +1,6 @@
 from typing import List, Dict, Any
 import ccxt
 import re
-import json
-from bson import ObjectId
 
 def get_default_config() -> Dict[str, Any]:
     """

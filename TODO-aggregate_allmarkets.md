@@ -5,6 +5,7 @@ This checklist covers the steps needed to implement the aggregate_allmarkets plu
 ## 1. Receive and Parse Configuration
 - [ ] Receive configuration: exchanges, tokens, intervals, base stablecoin, and database settings (from gather).
 - [ ] Parse and validate the configuration.
+- [ ] Check for `context['command']` in the plugin and parse/handle command-line arguments if present.
 
 ## 2. Data Collection
 - [ ] For each pair (e.g., BTC/USDT, BTC/USDC, USDC/USDT, etc.) and interval, collect all available candles from all exchanges (from DB).

@@ -6,7 +6,6 @@ def calculate(df, params):
     maximum = params.get('Maximum', 2)
     high = df['High'].values.astype(float)
     low = df['Low'].values.astype(float)
-    close = df['Close'].values.astype(float)
     sar = talib.SAR(high, low, acceleration=acceleration, maximum=maximum)
     return {
         'SAR': float(sar[-1]) if not np.isnan(sar[-1]) else None

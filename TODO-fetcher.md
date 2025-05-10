@@ -5,6 +5,7 @@ This checklist breaks down the steps required to fully implement the fetcher plu
 ## 1. Receive and Parse Configuration
 - [ ] Receive configuration from gather: exchanges, tokens, intervals and exchange_database on where to store the data.
 - [ ] Parse and validate the configuration.
+- [ ] Check for `context['command']` in the plugin and parse/handle command-line arguments if present.
 
 ## 2. Recent Pipeline Logic
 - [ ] For the 'current' pipeline, fetch all required intervals for the last 24 hours for each exchange/token pair.

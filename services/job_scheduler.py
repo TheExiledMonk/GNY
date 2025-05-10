@@ -5,12 +5,17 @@ Threadsafe, supports background and async jobs.
 import threading
 import queue
 import time
-from typing import Callable, Any, Optional
-
+from typing import Callable
 import uuid
 import psutil
+from services.config_manager import ConfigManager
+import logging
+
+# Set up logging
+logging.basicConfig(filename='logs/job_scheduler.log', level=logging.INFO)
 
 class PrioritizedJob:
+    """Represents a job with a given priority."""
     def __init__(self, priority: int, func: Callable, args: tuple, kwargs: dict):
         self.priority = priority
         self.func = func
@@ -23,10 +28,67 @@ class PrioritizedJob:
         self.pid = None
         self.cpu = None
         self.mem = None
+
     def __lt__(self, other):
         return self.priority < other.priority
 
-from services.config_manager import ConfigManager
+
+class JobStatusTracker:
+    """Tracks the status of jobs."""
+    def __init__(self):
+        self._job_status = {}  # job_id -> PrioritizedJob
+
+    def add_job(self, job: PrioritizedJob):
+        """Adds a job to the tracker."""
+        self._job_status[job.job_id] = job
+
+    def get_job_status(self, job_id: str) -> PrioritizedJob:
+        """Returns the status of a job."""
+        return self._job_status.get(job_id)
+
+    def update_job_status(self, job_id: str, status: str):
+        """Updates the status of a job."""
+        job = self._job_status.get(job_id)
+        if job:
+            job.status = status
+
+
+class JobWorker:
+    """Runs jobs from the queue."""
+    def __init__(self, queue: queue.PriorityQueue, job_status_tracker: JobStatusTracker, pause_event: threading.Event):
+        self._queue = queue
+        self._job_status_tracker = job_status_tracker
+        self._pause_event = pause_event
+
+    def run(self):
+        """Runs the worker loop."""
+        while True:
+            self._pause_event.wait()
+            try:
+                job: PrioritizedJob = self._queue.get(timeout=0.1)
+                self._run_job(job)
+            except queue.Empty:
+                continue
+            except Exception as e:
+                logging.error(f"Error running job: {e}")
+
+    def _run_job(self, job: PrioritizedJob):
+        """Runs a single job."""
+        self._job_status_tracker.update_job_status(job.job_id, "Running")
+        job.start_time = time.time()
+        try:
+            job.func(*job.args, **job.kwargs)
+        finally:
+            job.end_time = time.time()
+            self._job_status_tracker.update_job_status(job.job_id, "Done")
+            # Resource usage (best effort)
+            try:
+                p = psutil.Process()
+                job.cpu = p.cpu_percent(interval=0.01)
+                job.mem = p.memory_info().rss
+            except Exception:
+                job.cpu = job.mem = None
+
 
 class JobScheduler:
     """
@@ -37,61 +99,18 @@ class JobScheduler:
         scheduler_cfg = (config or {}).get('system', {}).get('scheduler', {}) if config else {}
         max_workers = max_workers or scheduler_cfg.get('max_workers', 8)
         self._queue = queue.PriorityQueue()
-        self._threads = []
+        self._job_status_tracker = JobStatusTracker()
+        self._workers = []
         self._max_workers = max_workers
         self._cpu_target = cpu_target
         self._stop = threading.Event()
         self._pause_event = threading.Event()
         self._pause_event.set()  # Not paused by default
-        self._min_running_priority = None  # If set, only jobs <= this priority run
-        self._job_status = {}  # job_id -> PrioritizedJob
         for _ in range(max_workers):
-            t = threading.Thread(target=self._worker, daemon=True)
+            worker = JobWorker(self._queue, self._job_status_tracker, self._pause_event)
+            t = threading.Thread(target=worker.run, daemon=True)
             t.start()
-            self._threads.append(t)
-
-    def _worker(self):
-        while not self._stop.is_set():
-            self._pause_event.wait()
-            try:
-                job: PrioritizedJob = self._queue.get(timeout=0.1)
-                # --- Auto-priority logic ---
-                if job.priority > 5:
-                    with self._queue.mutex:
-                        has_high = any(j.priority < 5 for j in self._queue.queue)
-                    if has_high:
-                        self._queue.put(job)
-                        time.sleep(0.05)
-                        continue
-                # Job control: skip if paused/canceled
-                if job.status == "Paused":
-                    self._queue.put(job)
-                    time.sleep(0.05)
-                    continue
-                if job.status == "Canceled":
-                    job.end_time = time.time()
-                    continue
-                # Job tracking
-                job.status = "Running"
-                job.start_time = time.time()
-                self._job_status[job.job_id] = job
-                try:
-                    job.func(*job.args, **job.kwargs)
-                finally:
-                    job.end_time = time.time()
-                    job.status = "Done"
-                    # Resource usage (best effort)
-                    try:
-                        p = psutil.Process()
-                        job.cpu = p.cpu_percent(interval=0.01)
-                        job.mem = p.memory_info().rss
-                    except Exception:
-                        job.cpu = job.mem = None
-            except queue.Empty:
-                continue
-            except Exception as e:
-                # TODO: Log error
-                pass
+            self._workers.append(t)
 
     def dispatch(self, func: Callable, *args, priority: int = 10, **kwargs) -> str:
         """
@@ -100,7 +119,7 @@ class JobScheduler:
         """
         job = PrioritizedJob(priority, func, args, kwargs)
         self._queue.put(job)
-        self._job_status[job.job_id] = job
+        self._job_status_tracker.add_job(job)
         return job.job_id
 
     def pause_all(self):
@@ -111,22 +130,10 @@ class JobScheduler:
         """Resume all worker threads."""
         self._pause_event.set()
 
-    def pause_low_priority(self, min_priority: int):
-        """
-        Only allow jobs <= min_priority to run (lower value = higher priority).
-        Others will be paused (re-queued until allowed).
-        """
-        self._min_running_priority = min_priority
-
-    def resume_all_priorities(self):
-        """Allow all priorities to run."""
-        self._min_running_priority = None
-        self._pause_event.set()
-
     def shutdown(self):
         self._stop.set()
         self._pause_event.set()
-        for t in self._threads:
+        for t in self._workers:
             t.join()
 
     def get_job_status(self):
@@ -134,7 +141,7 @@ class JobScheduler:
         Return a summary of all jobs: job_id, priority, status, run time, cpu, mem.
         """
         info = []
-        for job in self._job_status.values():
+        for job in self._job_status_tracker._job_status.values():
             info.append({
                 "job_id": job.job_id,
                 "priority": job.priority,
@@ -144,24 +151,3 @@ class JobScheduler:
                 "mem": job.mem
             })
         return info
-
-    def pause_job(self, job_id: str) -> bool:
-        job = self._job_status.get(job_id)
-        if job and job.status not in ("Done", "Canceled"):
-            job.status = "Paused"
-            return True
-        return False
-
-    def resume_job(self, job_id: str) -> bool:
-        job = self._job_status.get(job_id)
-        if job and job.status == "Paused":
-            job.status = "Queued"
-            return True
-        return False
-
-    def cancel_job(self, job_id: str) -> bool:
-        job = self._job_status.get(job_id)
-        if job and job.status not in ("Done", "Canceled"):
-            job.status = "Canceled"
-            return True
-        return False

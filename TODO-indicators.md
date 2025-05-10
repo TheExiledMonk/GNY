@@ -7,6 +7,7 @@ This checklist covers the steps needed to implement the indicators plugin.
 ## 1. Receive and Parse Configuration
 - [ ] Receive configuration: indicator_database, allmarkets tokenpairs/intervals, and indicator definitions (from indicators.yaml and gather config).
 - [ ] Parse and validate the configuration.
+- [ ] Check for `context['command']` in the plugin and parse/handle command-line arguments if present.
 
 ## 2. Indicator Calculation Modes
 - [ ] For 'current' mode:

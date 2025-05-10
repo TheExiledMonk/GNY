@@ -2,7 +2,6 @@
 Tests for db.config_storage
 """
 from db.config_storage import ConfigStorage
-import pytest
 
 def test_config_storage_sync():
     class FakeColl:

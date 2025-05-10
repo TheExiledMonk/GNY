@@ -1,7 +1,6 @@
 """
 Unit test for Orchestrator pipeline/thread startup.
 """
-import pytest
 from core.orchestrator import Orchestrator
 
 def test_orchestrator_runs(monkeypatch):

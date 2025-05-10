@@ -1,7 +1,7 @@
 """
 config_editor.py: Load/save plugin configs.
 """
-from flask import request, render_template, redirect, url_for, session
+from flask import request, render_template, session
 from ui.utils import get_navbar, get_menu, get_plugin_names, require_auth
 import os
 import yaml
@@ -12,50 +12,61 @@ SYSTEM_YAML_PATH = os.path.join(CONFIG_DIR, 'system.yaml')
 PIPELINES_YAML_PATH = os.path.join(CONFIG_DIR, 'pipelines.yaml')
 
 
+from typing import Tuple, Optional
+
+def _read_yaml_file(path: str, logger) -> Tuple[str, Optional[str]]:
+    """Read YAML file and return contents or error message."""
+    try:
+        with open(path, 'r') as f:
+            return f.read(), None
+    except Exception as e:
+        logger.error({"event": "config_editor_read_error", "file": os.path.basename(path), "error": str(e)})
+        return '', f"Error reading {os.path.basename(path)}: {e}"
+
+def _save_yaml_file(path: str, content: str, logger) -> Optional[str]:
+    """Save YAML file and return error message if any."""
+    try:
+        with open(path, 'w') as f:
+            f.write(content)
+        return None
+    except Exception as e:
+        logger.error({"event": "config_editor_save_error", "file": os.path.basename(path), "error": str(e)})
+        return f"Error saving {os.path.basename(path)}: {e}"
+
+def _validate_yaml(content: str, logger) -> Optional[str]:
+    """Validate YAML content and return error message if any."""
+    try:
+        yaml.safe_load(content)
+        return None
+    except yaml.YAMLError as e:
+        logger.error({"event": "config_editor_yaml_error", "error": str(e)})
+        return f"YAML syntax error: {e}"
+
 def config_editor_view():
     require_auth(session)
     logger = get_logger()
     error = None
     message = None
-    system_yaml = ''
-    pipelines_yaml = ''
+    system_yaml, err1 = _read_yaml_file(SYSTEM_YAML_PATH, logger)
+    pipelines_yaml, err2 = _read_yaml_file(PIPELINES_YAML_PATH, logger)
+    error = err1 or err2
 
-    # Load YAML files
-    try:
-        with open(SYSTEM_YAML_PATH, 'r') as f:
-            system_yaml = f.read()
-    except Exception as e:
-        error = f"Error reading system.yaml: {e}"
-        logger.error({"event": "config_editor_read_error", "file": "system.yaml", "error": str(e)})
-    try:
-        with open(PIPELINES_YAML_PATH, 'r') as f:
-            pipelines_yaml = f.read()
-    except Exception as e:
-        error = (error or "") + f" Error reading pipelines.yaml: {e}"
-        logger.error({"event": "config_editor_read_error", "file": "pipelines.yaml", "error": str(e)})
-
-    # Handle POST (save)
     if request.method == "POST":
         new_system_yaml = request.form.get("system_yaml", "")
         new_pipelines_yaml = request.form.get("pipelines_yaml", "")
-        # Validate YAML
-        try:
-            yaml.safe_load(new_system_yaml)
-            yaml.safe_load(new_pipelines_yaml)
-            # Save
-            with open(SYSTEM_YAML_PATH, 'w') as f:
-                f.write(new_system_yaml)
-            with open(PIPELINES_YAML_PATH, 'w') as f:
-                f.write(new_pipelines_yaml)
-            message = "Configuration saved successfully."
-            system_yaml = new_system_yaml
-            pipelines_yaml = new_pipelines_yaml
-        except yaml.YAMLError as e:
-            error = f"YAML syntax error: {e}"
-            logger.error({"event": "config_editor_yaml_error", "error": str(e)})
-        except Exception as e:
-            error = f"Error saving configuration: {e}"
-            logger.error({"event": "config_editor_save_error", "error": str(e)})
+        err_sys = _validate_yaml(new_system_yaml, logger)
+        err_pipe = _validate_yaml(new_pipelines_yaml, logger)
+        if not err_sys and not err_pipe:
+            err1 = _save_yaml_file(SYSTEM_YAML_PATH, new_system_yaml, logger)
+            err2 = _save_yaml_file(PIPELINES_YAML_PATH, new_pipelines_yaml, logger)
+            if not err1 and not err2:
+                message = "Configuration saved successfully."
+                system_yaml = new_system_yaml
+                pipelines_yaml = new_pipelines_yaml
+            else:
+                error = (err1 or "") + (err2 or "")
+        else:
+            error = (err_sys or "") + (err_pipe or "")
 
     return render_template(
         "config_editor.html",

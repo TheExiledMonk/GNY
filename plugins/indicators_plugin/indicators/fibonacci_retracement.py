@@ -1,7 +1,6 @@
 import numpy as np
 
 from typing import Tuple, Dict, Any
-import numpy as np
 
 def calculate(df, params) -> Tuple[Dict[str, Any], Dict[str, Any]]:
     """
@@ -16,10 +15,10 @@ def calculate(df, params) -> Tuple[Dict[str, Any], Dict[str, Any]]:
         return {f'Fib_{str(f)}': None for f in fib_levels}, {'Reverse': reverse}
     if reverse:
         fibs = fib_levels[::-1]
-        h, l = lows[-1], highs[-1]
+        h, low_val = lows[-1], highs[-1]
     else:
         fibs = fib_levels
-        h, l = highs[-1], lows[-1]
-    levels = h - (h - l) * fibs
+        h, low_val = highs[-1], lows[-1]
+    levels = h - (h - low_val) * fibs
     result = {f'Fib_{str(f)}': float(v) for f, v in zip(fib_levels, levels)}
     return result, {'Reverse': reverse}

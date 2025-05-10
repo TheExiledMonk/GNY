@@ -1,7 +1,6 @@
 import numpy as np
 
 from typing import Tuple, Dict, Any
-import numpy as np
 
 def calculate(df, params) -> Tuple[Dict[str, Any], Dict[str, int]]:
     """

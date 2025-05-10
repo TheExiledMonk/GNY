@@ -2,9 +2,22 @@
 # Defines all named pipelines for the orchestration framework
 # Example structure:
 pipelines:
-  current:
+  current_1h:
     priority: 2
+    command: "interval:1h,function:fetch,scale:latest"
     schedule: "0 */1 * * *"
+    hooks: ["gather", "fetcher", "gap", "aggregate_allmarkets", "indicators"]
+
+  current_6h:
+    priority: 2
+    command: "interval:6h,function:fetch,scale:latest"
+    schedule: "0 */6 * * *"
+    hooks: ["gather", "fetcher", "gap", "aggregate_allmarkets", "indicators"]
+
+  current_1d:
+    priority: 2
+    command: "interval:1d,function:fetch,scale:latest"
+    schedule: "0 0 */1 * *"
     hooks: ["gather", "fetcher", "gap", "aggregate_allmarkets", "indicators"]
 
   historical:

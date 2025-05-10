@@ -1,5 +1,4 @@
 import talib
-import numpy as np
 
 def calculate(df, params):
     open_ = df['Open'].values.astype(float)

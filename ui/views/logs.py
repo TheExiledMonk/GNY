@@ -1,7 +1,7 @@
 """
 logs.py: Runtime + error logs view.
 """
-from flask import render_template, request, redirect, url_for, session
+from flask import render_template, request, session
 from ui.utils import get_navbar, get_menu, get_plugin_names, require_auth
 from datetime import datetime
 import os
