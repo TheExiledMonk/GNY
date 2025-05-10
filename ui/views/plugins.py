@@ -40,7 +40,6 @@ def plugin_config_view(plugin):
         menu = get_menu(get_plugin_names())
         # Sanitize config for JSON serialization in debug block
         def make_json_safe(val):
-            import bson
             if isinstance(val, dict):
                 return {k: make_json_safe(v) for k, v in val.items()}
             elif isinstance(val, list):
@@ -73,6 +72,7 @@ def plugin_status_view(plugin):
         status = getattr(mod, "get_status", lambda: {"error": "No status available"})()
     except Exception as e:
         status = {"error": str(e)}
+        return f"<h2>Status for {plugin}</h2><pre>{status}</pre>"
     navbar = get_navbar()
     menu = get_menu(get_plugin_names())
     return f"<h2>Status for {plugin}</h2><pre>{status}</pre>"

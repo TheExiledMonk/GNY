@@ -7,12 +7,11 @@ import logging.handlers
 import json
 import os
 from typing import Any, Dict
+from threading import Lock
 
 LOG_DIR = os.path.join(os.path.dirname(__file__), "..", "logs")
 LOG_FILE = os.path.join(LOG_DIR, "orchestrator.log")
 SLACK_WEBHOOK = os.environ.get("SLACK_WEBHOOK_URL")
-
-from threading import Lock
 
 _logger_instance = None
 _logger_lock = Lock()

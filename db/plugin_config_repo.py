@@ -16,9 +16,6 @@ class PluginConfigRepo:
     def delete_plugin_config(self, plugin_id: str, pipeline: str, db_name: str = None) -> None:
         """Delete plugin config for a given plugin_id and pipeline."""
         self._storage.delete("plugin_configs", {"plugin_id": plugin_id, "pipeline": pipeline}, db_name=db_name)
-
-        self._storage = config_storage
-
     def get_plugin_config(self, plugin_id: str, pipeline: str, db_name: str = None) -> Optional[Dict[str, Any]]:
         """
         Fetch plugin config from the specified database if db_name is provided, else default.
