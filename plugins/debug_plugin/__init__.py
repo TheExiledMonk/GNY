@@ -39,12 +39,15 @@ def run(
     context = dict(context)  # Copy to avoid mutating input directly
     context["debug_plugin_visited"] = True
     context["debug_plugin_timestamp"] = datetime.utcnow().isoformat() + "Z"
+    # Also log gather_plugin_config if present
+    gather_config = context.get("gather_plugin_config", "[MISSING]")
     entry = {
         "timestamp": datetime.utcnow().isoformat() + "Z",
         "event": "debug_plugin_probe",
         "pipeline": pipeline,
         "context": context,
         "config": config,
+        # "gather_plugin_config": gather_config,
     }
     if pipeline_step is not None:
         entry["pipeline_step"] = pipeline_step

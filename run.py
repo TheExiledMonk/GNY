@@ -22,6 +22,8 @@ _flask_thread = None
 _scheduler = None
 
 
+import os
+
 def _graceful_shutdown(signum, frame):
     global _logger, orchestrator, _scheduler
     if _logger:
@@ -42,8 +44,13 @@ def _graceful_shutdown(signum, frame):
     # Stop the scheduler
     if _scheduler:
         _scheduler.shutdown(wait=False)
-    # Stop Flask server (not strictly needed since it's daemonized)
-    sys.exit(0)
+    # Restart on SIGHUP, exit otherwise
+    if signum == signal.SIGHUP:
+        if _logger:
+            _logger.info({"event": "reexec", "signal": signum})
+        os.execv(sys.executable, [sys.executable] + sys.argv)
+    else:
+        sys.exit(0)
 
 
 def _run_flask():

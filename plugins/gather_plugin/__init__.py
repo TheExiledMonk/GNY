@@ -13,6 +13,9 @@ except ImportError:
 
 
 def run(context, config, pipeline):
+    # Remove MongoDB _id field to avoid ObjectId serialization errors
+    config = dict(config)
+    config.pop('_id', None)
     """Main entry point for the gather plugin."""
     logger = context["services"]["log"]
 
@@ -53,6 +56,11 @@ def run(context, config, pipeline):
         "exchanges": config.get("exchanges", []),
         "stablecoins": config.get("stablecoins", []),
         "tokens": config.get("tokens", []),
+        "exchange_tokenpairs": config.get("exchange_tokenpairs"),
+        "exchange_database": config.get("exchange_database"),
+        "indicator_database": config.get("indicator_database"),
+        "plugin_id": config.get("plugin_id"),
+        "pipeline": config.get("pipeline"),
     }
     if intervals_dict is not None:
         pipeline_config["intervals"] = intervals_dict
@@ -64,4 +72,7 @@ def run(context, config, pipeline):
             "pipeline": pipeline,
         }
     )
-    return {"status": "success", "pipeline_config": pipeline_config}
+    # Add the pipeline_config to context so next plugin can access it
+    context = dict(context)  # Do not mutate input directly
+    context["gather_plugin_config"] = pipeline_config
+    return {"status": "success", "pipeline_config": pipeline_config, "context": context}

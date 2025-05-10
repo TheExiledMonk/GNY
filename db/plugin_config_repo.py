@@ -28,10 +28,15 @@ class PluginConfigRepo:
     ) -> Optional[Dict[str, Any]]:
         """
         Fetch plugin config from the specified database if db_name is provided, else default.
+        For global config (pipeline=None), match both null and missing pipeline fields.
         """
+        if pipeline is None:
+            query = {"plugin_id": plugin_id, "$or": [{"pipeline": None}, {"pipeline": {"$exists": False}}]}
+        else:
+            query = {"plugin_id": plugin_id, "pipeline": pipeline}
         results = self._storage.get(
             "plugin_configs",
-            {"plugin_id": plugin_id, "pipeline": pipeline},
+            query,
             db_name=db_name,
         )
         return results[0] if results else None

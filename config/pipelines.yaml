@@ -39,5 +39,5 @@ pipelines:
   debug:
     priority: 10
     command: "interval:1h"
-    hooks: ["framework_check", "debug"]
+    hooks: ["gather", "debug"]
 

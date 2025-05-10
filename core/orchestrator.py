@@ -95,10 +95,8 @@ class Orchestrator:
             for plugin_id in plugin_ids:
                 try:
                     # Each plugin gets its own config
-                    config = (
-                        self.config_manager.get_plugin_config(plugin_id, pipeline_name)
-                        or {}
-                    )
+                    # Always fetch global config (pipeline=None) for all plugins, to match gather_plugin logic
+                    config = self.config_manager.get_plugin_config(plugin_id, None) or {}
                     # Execute plugin, passing cumulative context
                     new_context = execute_plugin_for_pipeline_with_context(
                         plugin_id=plugin_id,

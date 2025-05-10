@@ -1,0 +1,20 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Server Control - GNY DataWarehouse NexGen</title>
+    <meta charset="utf-8">
+    <link rel="stylesheet" href="/static/gny_style.css">
+</head>
+<body>
+    {{ navbar|safe }}
+    {{ menu|safe }}
+    <div class="main-content">
+      <h2>Server Control</h2>
+      <button id="restart-btn" class="btn btn-warning">Restart Server</button>
+      <button id="stop-btn" class="btn btn-danger">Stop Server</button>
+      <div id="control-status" style="margin-top:20px;"></div>
+    </div>
+    <script src="/static/control.js"></script>
+</body>
+</html>
+

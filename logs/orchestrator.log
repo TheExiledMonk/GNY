@@ -633,3 +633,170 @@
 2025-05-10 09:00:00,003 ERROR {"event": "plugin_error", "plugin": "gap_plugin", "pipeline": "current_1h", "hook": "gap", "error": "No module named 'plugins.gap_plugin'"}
 2025-05-10 09:00:00,004 ERROR {"event": "plugin_error", "plugin": "aggregate_allmarkets_plugin", "pipeline": "current_1h", "hook": "aggregate_allmarkets", "error": "No module named 'plugins.aggregate_allmarkets_plugin'"}
 2025-05-10 09:00:00,005 ERROR {"event": "plugin_error", "plugin": "indicators_plugin", "pipeline": "current_1h", "hook": "indicators", "error": "module 'plugins.indicators_plugin' has no attribute 'run'"}
+2025-05-10 09:04:01,405 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:04:33,956 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:04:33,958 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:04:33,958 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:05:38,691 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:05:39,825 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:05:39,826 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:05:39,827 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:05:53,788 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:11:08,410 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:11:08,411 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:11:08,411 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:13:39,854 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:13:39,854 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:13:39,855 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:14:34,192 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:14:35,776 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:14:35,777 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:14:35,778 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:14:47,356 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:17:05,583 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:17:05,584 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:17:05,584 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:19:01,764 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:19:01,765 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:19:01,766 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:19:06,322 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:19:06,322 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:19:06,323 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:19:08,890 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:20:44,929 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:20:44,929 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:20:44,930 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:20:49,708 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:20:49,710 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:20:49,710 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:20:53,618 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:22:07,501 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:22:07,502 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:22:07,503 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:22:21,711 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:22:21,714 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "debug"}
+2025-05-10 09:22:21,714 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "debug"}
+2025-05-10 09:22:21,714 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "debug"}
+2025-05-10 09:22:21,714 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather"}
+2025-05-10 09:22:21,715 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:22:34,758 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:22:34,758 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "debug"}
+2025-05-10 09:22:34,759 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "debug"}
+2025-05-10 09:22:34,759 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "debug"}
+2025-05-10 09:22:34,759 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather"}
+2025-05-10 09:22:34,759 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:23:27,585 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:23:30,467 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:23:30,469 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:23:30,471 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:23:39,953 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:23:39,956 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "debug"}
+2025-05-10 09:23:39,957 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "debug"}
+2025-05-10 09:23:39,957 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "debug"}
+2025-05-10 09:23:39,957 INFO {"event": "plugin_run", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather"}
+2025-05-10 09:23:39,958 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:26:10,982 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:26:13,961 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:26:13,964 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:26:13,965 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:26:28,652 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:26:28,656 INFO {"event": "gather_plugin_config_raw", "config_json": "{}", "pipeline": "debug"}
+2025-05-10 09:26:28,656 INFO {"event": "gather_plugin_run", "config": {}, "pipeline": "debug"}
+2025-05-10 09:26:28,656 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": null, "exchanges": [], "stablecoins": [], "tokens": []}, "pipeline": "debug"}
+2025-05-10 09:26:28,656 INFO {"event": "plugin_context_update", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config"]}
+2025-05-10 09:26:28,657 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:29:39,048 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:29:42,053 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:29:42,053 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:29:42,055 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:30:01,274 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:30:11,643 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:30:11,644 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:30:11,644 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:30:20,188 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:30:20,191 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"_id\": \"681e98055debc9e81f7fe3cf\",\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 09:30:20,191 ERROR {"event": "plugin_error", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:30:20,191 ERROR {"event": "plugin_error", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:30:20,192 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:33:15,175 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:33:15,175 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:33:15,176 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:33:22,696 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:33:22,699 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"_id\": \"681e98055debc9e81f7fe3cf\",\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 09:33:22,700 ERROR {"event": "plugin_error", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:33:22,700 ERROR {"event": "plugin_error", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:33:22,701 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:38:13,067 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:38:15,970 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:38:15,972 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:38:15,973 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:38:26,041 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:38:26,044 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"_id\": \"681e98055debc9e81f7fe3cf\",\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 09:38:26,044 ERROR {"event": "plugin_error", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:38:26,044 ERROR {"event": "plugin_error", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:38:26,045 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:39:11,904 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:39:13,575 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:39:13,576 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:39:13,577 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:39:20,647 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:39:20,650 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"_id\": \"681e98055debc9e81f7fe3cf\",\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 09:39:20,650 ERROR {"event": "plugin_error", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:39:20,650 ERROR {"event": "plugin_error", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:39:20,651 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:40:41,087 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:40:43,599 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:40:43,600 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:40:43,601 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:40:47,997 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:40:48,001 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"_id\": \"681e98055debc9e81f7fe3cf\",\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 09:40:48,001 ERROR {"event": "plugin_error", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:40:48,001 ERROR {"event": "plugin_error", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:40:48,002 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:43:19,238 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:43:21,263 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:43:21,263 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:43:21,264 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:43:30,716 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:43:30,719 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"_id\": \"681e98055debc9e81f7fe3cf\",\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 09:43:30,720 ERROR {"event": "plugin_error", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:43:30,720 ERROR {"event": "plugin_error", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "error": "Object of type ObjectId is not JSON serializable"}
+2025-05-10 09:43:30,721 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:48:24,280 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:48:26,010 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:48:26,011 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:48:26,012 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:48:30,677 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:48:30,682 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 09:48:30,682 INFO {"event": "gather_plugin_run", "config": {"exchanges": ["binance", "bigone"], "tokens": ["BTC", "ETH"], "stablecoins": ["USDT", "USDC", "TUSD"], "base_stablecoin": "USDT", "intervals": ["1h", "6h", "1d"], "exchange_tokenpairs": {"binance": ["BTC/USDT", "BTC/USDC", "BTC/TUSD", "ETH/USDT", "ETH/USDC", "ETH/TUSD", "USDC/USDT", "TUSD/USDT", "USDC/TUSD"], "bigone": ["BTC/USDT", "ETH/USDT", "USDC/USDT"]}, "exchange_database": "API_exchanges", "indicator_database": "API_indicators", "plugin_id": "gather_plugin", "pipeline": null}, "pipeline": "debug"}
+2025-05-10 09:48:30,682 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": "USDT", "exchanges": ["binance", "bigone"], "stablecoins": ["USDT", "USDC", "TUSD"], "tokens": ["BTC", "ETH"], "intervals": {"1h": true, "6h": true, "1d": true}}, "pipeline": "debug"}
+2025-05-10 09:48:30,682 INFO {"event": "plugin_context_update", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config"]}
+2025-05-10 09:48:30,683 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 09:59:43,242 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 09:59:45,110 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 09:59:45,111 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 09:59:45,112 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 09:59:49,156 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 09:59:49,161 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 09:59:49,161 INFO {"event": "gather_plugin_run", "config": {"exchanges": ["binance", "bigone"], "tokens": ["BTC", "ETH"], "stablecoins": ["USDT", "USDC", "TUSD"], "base_stablecoin": "USDT", "intervals": ["1h", "6h", "1d"], "exchange_tokenpairs": {"binance": ["BTC/USDT", "BTC/USDC", "BTC/TUSD", "ETH/USDT", "ETH/USDC", "ETH/TUSD", "USDC/USDT", "TUSD/USDT", "USDC/TUSD"], "bigone": ["BTC/USDT", "ETH/USDT", "USDC/USDT"]}, "exchange_database": "API_exchanges", "indicator_database": "API_indicators", "plugin_id": "gather_plugin", "pipeline": null}, "pipeline": "debug"}
+2025-05-10 09:59:49,161 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": "USDT", "exchanges": ["binance", "bigone"], "stablecoins": ["USDT", "USDC", "TUSD"], "tokens": ["BTC", "ETH"], "exchange_tokenpairs": {"binance": ["BTC/USDT", "BTC/USDC", "BTC/TUSD", "ETH/USDT", "ETH/USDC", "ETH/TUSD", "USDC/USDT", "TUSD/USDT", "USDC/TUSD"], "bigone": ["BTC/USDT", "ETH/USDT", "USDC/USDT"]}, "exchange_database": "API_exchanges", "indicator_database": "API_indicators", "plugin_id": "gather_plugin", "pipeline": null, "intervals": {"1h": true, "6h": true, "1d": true}}, "pipeline": "debug"}
+2025-05-10 09:59:49,161 INFO {"event": "plugin_context_update", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config"]}
+2025-05-10 09:59:49,163 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config", "debug_plugin_visited", "debug_plugin_timestamp"]}
+2025-05-10 10:00:00,001 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "current_1h"}
+2025-05-10 10:00:00,001 INFO {"event": "gather_plugin_run", "config": {"exchanges": ["binance", "bigone"], "tokens": ["BTC", "ETH"], "stablecoins": ["USDT", "USDC", "TUSD"], "base_stablecoin": "USDT", "intervals": ["1h", "6h", "1d"], "exchange_tokenpairs": {"binance": ["BTC/USDT", "BTC/USDC", "BTC/TUSD", "ETH/USDT", "ETH/USDC", "ETH/TUSD", "USDC/USDT", "TUSD/USDT", "USDC/TUSD"], "bigone": ["BTC/USDT", "ETH/USDT", "USDC/USDT"]}, "exchange_database": "API_exchanges", "indicator_database": "API_indicators", "plugin_id": "gather_plugin", "pipeline": null}, "pipeline": "current_1h"}
+2025-05-10 10:00:00,001 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": "USDT", "exchanges": ["binance", "bigone"], "stablecoins": ["USDT", "USDC", "TUSD"], "tokens": ["BTC", "ETH"], "exchange_tokenpairs": {"binance": ["BTC/USDT", "BTC/USDC", "BTC/TUSD", "ETH/USDT", "ETH/USDC", "ETH/TUSD", "USDC/USDT", "TUSD/USDT", "USDC/TUSD"], "bigone": ["BTC/USDT", "ETH/USDT", "USDC/USDT"]}, "exchange_database": "API_exchanges", "indicator_database": "API_indicators", "plugin_id": "gather_plugin", "pipeline": null, "intervals": {"1h": true, "6h": true, "1d": true}}, "pipeline": "current_1h"}
+2025-05-10 10:00:00,001 INFO {"event": "plugin_context_update", "plugin": "gather_plugin", "pipeline": "current_1h", "hook": "gather", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config"]}
+2025-05-10 10:00:00,003 ERROR {"event": "plugin_error", "plugin": "fetcher_plugin", "pipeline": "current_1h", "hook": "fetcher", "error": "No module named 'plugins.fetcher_plugin'"}
+2025-05-10 10:00:00,004 ERROR {"event": "plugin_error", "plugin": "gap_plugin", "pipeline": "current_1h", "hook": "gap", "error": "No module named 'plugins.gap_plugin'"}
+2025-05-10 10:00:00,004 ERROR {"event": "plugin_error", "plugin": "aggregate_allmarkets_plugin", "pipeline": "current_1h", "hook": "aggregate_allmarkets", "error": "No module named 'plugins.aggregate_allmarkets_plugin'"}
+2025-05-10 10:00:00,005 ERROR {"event": "plugin_error", "plugin": "indicators_plugin", "pipeline": "current_1h", "hook": "indicators", "error": "module 'plugins.indicators_plugin' has no attribute 'run'"}
+2025-05-10 10:02:56,100 INFO {"event": "shutdown", "signal": 2}
+2025-05-10 10:02:57,642 INFO {"event": "scheduler_job_added", "pipeline": "current_1h", "cron": "0 */1 * * *"}
+2025-05-10 10:02:57,642 INFO {"event": "scheduler_job_added", "pipeline": "current_6h", "cron": "0 */6 * * *"}
+2025-05-10 10:02:57,644 INFO {"event": "scheduler_job_added", "pipeline": "current_1d", "cron": "0 0 */1 * *"}
+2025-05-10 10:03:05,337 INFO {"event": "trigger_pipeline", "pipeline": "debug"}
+2025-05-10 10:03:05,340 INFO {"event": "gather_plugin_config_raw", "config_json": "{\n  \"exchanges\": [\n    \"binance\",\n    \"bigone\"\n  ],\n  \"tokens\": [\n    \"BTC\",\n    \"ETH\"\n  ],\n  \"stablecoins\": [\n    \"USDT\",\n    \"USDC\",\n    \"TUSD\"\n  ],\n  \"base_stablecoin\": \"USDT\",\n  \"intervals\": [\n    \"1h\",\n    \"6h\",\n    \"1d\"\n  ],\n  \"exchange_tokenpairs\": {\n    \"binance\": [\n      \"BTC/USDT\",\n      \"BTC/USDC\",\n      \"BTC/TUSD\",\n      \"ETH/USDT\",\n      \"ETH/USDC\",\n      \"ETH/TUSD\",\n      \"USDC/USDT\",\n      \"TUSD/USDT\",\n      \"USDC/TUSD\"\n    ],\n    \"bigone\": [\n      \"BTC/USDT\",\n      \"ETH/USDT\",\n      \"USDC/USDT\"\n    ]\n  },\n  \"exchange_database\": \"API_exchanges\",\n  \"indicator_database\": \"API_indicators\",\n  \"plugin_id\": \"gather_plugin\",\n  \"pipeline\": null\n}", "pipeline": "debug"}
+2025-05-10 10:03:05,340 INFO {"event": "gather_plugin_run", "config": {"exchanges": ["binance", "bigone"], "tokens": ["BTC", "ETH"], "stablecoins": ["USDT", "USDC", "TUSD"], "base_stablecoin": "USDT", "intervals": ["1h", "6h", "1d"], "exchange_tokenpairs": {"binance": ["BTC/USDT", "BTC/USDC", "BTC/TUSD", "ETH/USDT", "ETH/USDC", "ETH/TUSD", "USDC/USDT", "TUSD/USDT", "USDC/TUSD"], "bigone": ["BTC/USDT", "ETH/USDT", "USDC/USDT"]}, "exchange_database": "API_exchanges", "indicator_database": "API_indicators", "plugin_id": "gather_plugin", "pipeline": null}, "pipeline": "debug"}
+2025-05-10 10:03:05,341 INFO {"event": "gather_plugin_emit", "pipeline_config": {"base_stablecoin": "USDT", "exchanges": ["binance", "bigone"], "stablecoins": ["USDT", "USDC", "TUSD"], "tokens": ["BTC", "ETH"], "exchange_tokenpairs": {"binance": ["BTC/USDT", "BTC/USDC", "BTC/TUSD", "ETH/USDT", "ETH/USDC", "ETH/TUSD", "USDC/USDT", "TUSD/USDT", "USDC/TUSD"], "bigone": ["BTC/USDT", "ETH/USDT", "USDC/USDT"]}, "exchange_database": "API_exchanges", "indicator_database": "API_indicators", "plugin_id": "gather_plugin", "pipeline": null, "intervals": {"1h": true, "6h": true, "1d": true}}, "pipeline": "debug"}
+2025-05-10 10:03:05,341 INFO {"event": "plugin_context_update", "plugin": "gather_plugin", "pipeline": "debug", "hook": "gather", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config"]}
+2025-05-10 10:03:05,342 INFO {"event": "plugin_context_update", "plugin": "debug_plugin", "pipeline": "debug", "hook": "debug", "updated_keys": ["run_id", "start_time", "pipeline", "hook", "services", "command", "gather_plugin_config", "debug_plugin_visited", "debug_plugin_timestamp"]}

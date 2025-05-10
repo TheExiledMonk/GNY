@@ -69,6 +69,7 @@ def get_menu(plugins: Optional[list] = None) -> str:
       <a href="/health" class="menu-link">System Health</a>
       <a href="/logs" class="menu-link">Logs</a>
       <a href="/jobs" class="menu-link">Jobs</a>
+      <a href="/control" class="menu-link">Control</a>
     </div>
     """
 
