@@ -3,11 +3,11 @@
 This checklist breaks down the steps required to fully implement the fetcher plugin as described in the main TODO-plugins.md.
 
 ## 1. Receive and Parse Configuration
-- [ ] Receive configuration from gather: exchanges, tokens, intervals.
+- [ ] Receive configuration from gather: exchanges, tokens, intervals and exchange_database on where to store the data.
 - [ ] Parse and validate the configuration.
 
 ## 2. Recent Pipeline Logic
-- [ ] For the 'recent' pipeline, fetch all required intervals for the last 24 hours for each exchange/token pair.
+- [ ] For the 'current' pipeline, fetch all required intervals for the last 24 hours for each exchange/token pair.
 - [ ] Patch any missing candles in this window.
 
 ## 3. Historical Pipeline Logic
@@ -28,6 +28,30 @@ This checklist breaks down the steps required to fully implement the fetcher plu
 - [ ] Store fetched candles in the configured database (database name set in plugin config page).
 - [ ] Use collection name format: <exchangename>_<token><stablecoin>_<interval>.
 
+### Example document layout for exchange candles
+Each fetched candle should be stored as a document with the following structure:
+
+```json
+{
+    "_id": 1746576000000,
+    "interval": "1d",
+    "DateTime": {
+        "$date": {
+            "$numberLong": "1746576000000"
+        }
+    },
+    "Exchange": "allmarkets",
+    "Ticker": "BTCUSDT",
+    "Open time": 1746576000000,
+    "Open": 96806.89213907199,
+    "High": 97701.52669308394,
+    "Low": 95780.97759005128,
+    "Close": 97031.6050985021,
+    "Volume": 31855.69891,
+    "Close time": 1746662399999
+}
+```
+
 ## 6. Error Handling & Logging
 - [ ] Log all errors with structured logging (context: exchange, token, interval, error).
 - [ ] Ensure no silent failures; all exceptions must be logged or raised.
@@ -36,7 +60,7 @@ This checklist breaks down the steps required to fully implement the fetcher plu
 - [ ] Persist discovered listing dates and other relevant metadata in the config/database for future runs.
 
 ## 8. Testing
-- [ ] Add unit tests and integration tests for all major logic branches (recent, historical, DB storage, error handling).
+- [ ] Add unit tests and integration tests for all major logic branches (current, historical, DB storage, error handling).
 
 ---
 

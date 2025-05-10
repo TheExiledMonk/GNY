@@ -95,8 +95,8 @@ def build_context(request, config, pipeline, message, all_exchanges, all_tokens,
         "intervals_str": intervals_str,
     }
 
-async def handle_config_request(
-    request: Request,
+def handle_config_request(
+    request,
     config: dict,
     pipeline: str,
     message: Any,
@@ -107,7 +107,8 @@ async def handle_config_request(
     All config reads/writes MUST use plugin_config_repo as the source of truth.
     The only use of get_default_config() is to fill missing keys, never to overwrite user config.
     """
-    config = plugin_config_repo.get_plugin_config("gather_plugin", pipeline)
+    # Always use global config (no pipeline key), to match how config is saved
+    config = plugin_config_repo.get_plugin_config("gather_plugin", None)
     if config is None or not isinstance(config, dict):
         config = {}
     config = normalize_config(config)
@@ -120,12 +121,12 @@ async def handle_config_request(
 
     if request.method == "POST":
         logging.getLogger("gather_plugin").info({"event": "post_received"})
-        form = await request.form()
+        form = request.form
         logging.getLogger("gather_plugin").info({"event": "form_parsed", "form": dict(form)})
         action = form.get("action")
         new_config = process_form(form, config)
         update_tokenpairs(new_config)
-        plugin_config_repo.update_plugin_config("gather_plugin", pipeline, new_config)
+        plugin_config_repo.update_plugin_config("gather_plugin", None, new_config)
         config = new_config
         if action == "reload_tokens":
             selected_exchanges = new_config["exchanges"]

@@ -4,6 +4,7 @@ jobs.py: Job list view and control endpoints for the UI.
 from flask import jsonify, request, render_template
 from services.job_scheduler import JobScheduler
 from core.orchestrator import Orchestrator
+from services.api_server import get_navbar, get_menu, get_plugin_names
 
 # Wire up the scheduler from the orchestrator singleton
 orchestrator = Orchestrator()
@@ -12,7 +13,11 @@ scheduler: JobScheduler = orchestrator.thread_manager.scheduler if hasattr(orche
 def jobs_view():
     """Return current job list as JSON for the UI (AJAX) or render jobs.html for GET."""
     if request.method == "GET" and request.accept_mimetypes.accept_html:
-        return render_template("jobs.html")
+        return render_template(
+            "jobs.html",
+            navbar=get_navbar(),
+            menu=get_menu(get_plugin_names()),
+        )
     return jsonify({"jobs": scheduler.get_job_status()})
 
 def job_action_view():

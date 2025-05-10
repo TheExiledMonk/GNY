@@ -1,44 +1,39 @@
-from fastapi import FastAPI, HTTPException, Request, Response, Form, Depends
-from fastapi.responses import HTMLResponse, RedirectResponse
-from fastapi.security import HTTPBasic, HTTPBasicCredentials
-from starlette.middleware.sessions import SessionMiddleware
-from pydantic import BaseModel
+from flask import Flask, request, render_template, redirect, url_for, jsonify
 from core.orchestrator import Orchestrator
 import threading
 import os
 from dotenv import load_dotenv
 from passlib.hash import bcrypt
 from services.resource_monitor import ResourceMonitor
-from fastapi.templating import Jinja2Templates
+from flask import session
 
 load_dotenv()
 ADMIN_USERNAME = os.getenv("ADMIN_USERNAME", "admin")
 ADMIN_PASSWORD = os.getenv("ADMIN_PASSWORD", "admin1234")
 
-app = FastAPI()
-app.add_middleware(SessionMiddleware, secret_key="supersecret")
+app = Flask(__name__)
+app.secret_key = "supersecret"
 orchestrator = Orchestrator()
 
-security = HTTPBasic()
-
-@app.get("/jobs", response_class=HTMLResponse)
-def jobs_page(request: Request):
-    require_auth(request)
-    return templates.TemplateResponse(
+@app.route("/jobs", methods=["GET"])
+def jobs_page():
+    if not is_authenticated():
+        return redirect(url_for("login"))
+    return render_template(
         "jobs.html",
-        {"request": request,
-         "navbar": get_navbar(),
-         "menu": get_menu(get_plugin_names())}
+        navbar=get_navbar(),
+        menu=get_menu(get_plugin_names())
     )
 
 from core.context_builder import global_job_scheduler
 
-@app.get("/jobs/status")
+@app.route("/jobs/status", methods=["GET"])
 def jobs_status():
-    return {"jobs": global_job_scheduler.get_job_status()}
+    return jsonify({"jobs": global_job_scheduler.get_job_status()})
 
-@app.post("/jobs/action")
-def jobs_action(data: dict):
+@app.route("/jobs/action", methods=["POST"])
+def jobs_action():
+    data = request.get_json()
     job_id = data.get("job_id")
     action = data.get("action")
     if not job_id or not action:
@@ -53,14 +48,15 @@ def jobs_action(data: dict):
         return {"error": "Invalid action"}
     return {"result": result}
 
-def is_authenticated(request: Request):
-    return request.session.get("user") == ADMIN_USERNAME
+def is_authenticated():
+    from flask import session
+    return session.get("user") == ADMIN_USERNAME
 
-def require_auth(request: Request):
-    if not is_authenticated(request):
-        raise HTTPException(status_code=401, detail="Not authenticated")
+def require_auth():
+    if not is_authenticated():
+        from flask import abort
+        abort(401, description="Not authenticated")
 
-templates = Jinja2Templates(directory="ui/templates")
 
 def get_navbar():
     return '''
@@ -120,19 +116,16 @@ def get_menu(plugins=None):
     </div>
     '''
 
-@app.get("/health", response_class=HTMLResponse)
-def health(request: Request):
-    if not is_authenticated(request):
-        return RedirectResponse("/", status_code=302)
+@app.route("/health", methods=["GET"])
+def health():
+    if not is_authenticated():
+        return redirect(url_for("dashboard"))
     stats = ResourceMonitor().get_stats()
-    return templates.TemplateResponse(
+    return render_template(
         "health.html",
-        {
-            "request": request,
-            "navbar": get_navbar(),
-            "menu": get_menu(get_plugin_names()),
-            "stats": stats,
-        }
+        navbar=get_navbar(),
+        menu=get_menu(get_plugin_names()),
+        stats=stats,
     )
 
 def get_plugin_names():
@@ -141,12 +134,12 @@ def get_plugin_names():
     return [d for d in os.listdir(plugin_dir)
             if os.path.isdir(os.path.join(plugin_dir, d)) and not d.startswith("__")]
 
-@app.get("/plugins", response_class=HTMLResponse)
-def list_plugins(request: Request):
-    if not is_authenticated(request):
-        return RedirectResponse("/", status_code=302)
+@app.route("/plugins", methods=["GET"])
+def list_plugins():
+    if not is_authenticated():
+        return redirect(url_for("dashboard"))
     plugins = get_plugin_names()
-    return {"plugins": plugins}
+    return jsonify({"plugins": plugins})
 
 from db.config_storage import ConfigStorage
 from db.plugin_config_repo import PluginConfigRepo
@@ -154,14 +147,10 @@ from db.plugin_config_repo import PluginConfigRepo
 config_storage = ConfigStorage()
 plugin_config_repo = PluginConfigRepo(config_storage)
 
-from fastapi import Form
-from fastapi.responses import RedirectResponse
-
-@app.api_route("/plugins/{plugin}/config", methods=["GET", "POST"], response_class=HTMLResponse)
-async def plugin_config(request: Request, plugin: str, pipeline: str = "default"):
-    if not is_authenticated(request):
-        return RedirectResponse("/", status_code=302)
-    message = None
+@app.route("/plugins/<plugin>/config", methods=["GET", "POST"])
+def plugin_config(plugin):
+    if not is_authenticated():
+        return redirect(url_for("dashboard"))
     import importlib
     try:
         mod = importlib.import_module(f"plugins.{plugin}")
@@ -172,28 +161,14 @@ async def plugin_config(request: Request, plugin: str, pipeline: str = "default"
             "event": "plugin_import_error",
             "plugin": plugin,
             "error": str(e),
-            "traceback": traceback.format_exc(),
         })
-        return HTMLResponse(f"<h2>Plugin import error: {e}</h2>", status_code=500)
-
-    config = plugin_config_repo.get_plugin_config(plugin, pipeline) or {}
+        return f"<h2>Error loading plugin '{plugin}': {e}</h2>", 500
     if hasattr(mod, "handle_config_request"):
-        config_fragment = await mod.handle_config_request(request, config, pipeline, message, plugin_config_repo)
-        if request.method == "POST":
-            # Always let the plugin handler process and save the config before redirecting
-            return RedirectResponse(request.url, status_code=303)
-        if isinstance(config_fragment, HTMLResponse):
-            config_html = config_fragment.body.decode() if hasattr(config_fragment.body, 'decode') else config_fragment.body
-        else:
-            config_html = str(config_fragment)
-        # Compose the full page
+        from flask import request
+        config_html = mod.handle_config_request(request)
+        box_style = "max-width:700px;margin:2.5em auto 0 auto;padding:2em 2.5em;background:#fff;border-radius:12px;box-shadow:0 2px 16px #0001;"
         navbar = get_navbar()
         menu = get_menu(get_plugin_names())
-        box_style = (
-            "max-width:700px;margin:2.5em auto 0 auto;"
-            "padding:2em 2.5em;background:#fff;border-radius:12px;"
-            "box-shadow:0 2px 16px #0001;"
-        )
         full_html = f'''
         <!DOCTYPE html>
         <html>
@@ -211,13 +186,13 @@ async def plugin_config(request: Request, plugin: str, pipeline: str = "default"
         </body>
         </html>
         '''
-        return HTMLResponse(full_html)
-    return HTMLResponse(f"<h2>Plugin '{plugin}' does not provide handle_config_request(). No config UI available.</h2>", status_code=501)
+        return full_html
+    return f"<h2>Plugin '{plugin}' does not provide handle_config_request(). No config UI available.</h2>", 501
 
-@app.get("/plugins/{plugin}/status", response_class=HTMLResponse)
-def plugin_status(request: Request, plugin: str):
-    if not is_authenticated(request):
-        return RedirectResponse("/", status_code=302)
+@app.route("/plugins/<plugin>/status")
+def plugin_status(plugin):
+    if not is_authenticated():
+        return redirect(url_for("dashboard"))
     try:
         mod = __import__(f"plugins.{plugin}", fromlist=["get_status"])
         status = mod.get_status()
@@ -235,28 +210,26 @@ def plugin_status(request: Request, plugin: str):
     )
 
 from datetime import datetime
-from fastapi import Query
 
-@app.get("/logs", response_class=HTMLResponse)
-def logs_page(request: Request, 
-              level: str = Query(None), 
-              start: str = Query(None), 
-              end: str = Query(None), 
-              q: str = Query(None)):
-    if not is_authenticated(request):
-        return RedirectResponse("/", status_code=302)
+@app.route("/logs", methods=["GET"])
+def logs_page():
+    if not is_authenticated():
+        return redirect(url_for("dashboard"))
+    from flask import request, render_template
     log_path = "logs/orchestrator.log"
     logs = []
+    level = request.args.get("level")
+    start = request.args.get("start")
+    end = request.args.get("end")
+    q = request.args.get("q")
     filters = {"level": level, "start": start, "end": end, "q": q}
     try:
         with open(log_path, "r") as f:
-            lines = f.readlines()[-5000:]  # Only look at last 5000 lines for perf
+            lines = f.readlines()[-5000:]
         filtered = []
-        for line in reversed(lines):  # newest first
-            # Level filter
+        for line in reversed(lines):
             if level and (f" {level.upper()} " not in line):
                 continue
-            # Date filter (assumes ISO or similar date at start)
             if (start or end):
                 try:
                     dt_str = line.split()[0]
@@ -267,79 +240,70 @@ def logs_page(request: Request,
                         continue
                 except Exception:
                     pass
-            # Keyword filter
             if q and q.lower() not in line.lower():
                 continue
             filtered.append(line)
             if len(filtered) >= 200:
                 break
-        logs = [line for line in reversed(filtered) if line.strip()]  # restore to oldest-first, remove blanks
+        logs = [line for line in reversed(filtered) if line.strip()]
     except Exception as e:
         logs = [f"Error reading logs: {e}\n"]
-    return templates.TemplateResponse(
+    return render_template(
         "logs.html",
-        {
-            "request": request,
-            "navbar": get_navbar(),
-            "menu": get_menu(get_plugin_names()),
-            "logs": logs,
-            "filters": filters,
-        }
+        navbar=get_navbar(),
+        menu=get_menu(get_plugin_names()),
+        logs=logs,
+        filters=filters,
     )
 
-@app.get("/", response_class=HTMLResponse)
-def dashboard(request: Request):
-    if not is_authenticated(request):
-        return HTMLResponse(
-            """
+@app.route("/", methods=["GET"])
+def dashboard():
+    if not is_authenticated():
+        return '''
             <h2>Login</h2>
             <form method='post' action='/login'>
                 <input name='username' placeholder='Username' />
                 <input name='password' type='password' placeholder='Password' />
                 <button type='submit'>Login</button>
             </form>
-            """,
-            status_code=200,
-        )
+            '''
     pipelines = list(orchestrator.pipelines.keys())
-    return templates.TemplateResponse(
+    return render_template(
         "dashboard.html",
-        {
-            "request": request,
-            "navbar": get_navbar(),
-            "menu": get_menu(get_plugin_names()),
-            "pipelines": pipelines,
-        }
+        navbar=get_navbar(),
+        menu=get_menu(get_plugin_names()),
+        pipelines=pipelines,
     )
 
-@app.post("/login")
-def login(request: Request, username: str = Form(...), password: str = Form(...)):
+@app.route("/login", methods=["POST"])
+def login():
+    from flask import request, session, redirect, url_for
+    username = request.form.get("username")
+    password = request.form.get("password")
     if username == ADMIN_USERNAME and password == ADMIN_PASSWORD:
-        request.session["user"] = username
-        return RedirectResponse("/", status_code=302)
-    return HTMLResponse("<h2>Login failed</h2><a href='/'>Try again</a>", status_code=401)
+        session["user"] = username
+        return redirect(url_for("dashboard"))
+    return "<h2>Login failed</h2><a href='/'>Try again</a>", 401
 
-@app.post("/logout")
-def logout(request: Request):
-    request.session.clear()
-    return RedirectResponse("/", status_code=302)
+@app.route("/logout", methods=["POST"])
+def logout():
+    from flask import session, redirect, url_for
+    session.clear()
+    return redirect(url_for("dashboard"))
 
-class PipelineTrigger(BaseModel):
-    pipeline: str
-
-@app.post("/trigger")
-def trigger_pipeline(request: Request, pipeline: str = Form(...)):
+@app.route("/trigger", methods=["POST"])
+def trigger_pipeline():
     require_auth(request)
+    pipeline = request.form.get("pipeline")
     if pipeline not in orchestrator.pipelines:
-        return HTMLResponse(f"<h2>Pipeline not found: {pipeline}</h2>", status_code=404)
-    # Get pipeline priority from config, default to 10
+        return "<h2>Pipeline not found: {}</h2>".format(pipeline), 404
     priority = orchestrator.pipelines[pipeline].get("priority", 10)
-    # Dispatch a job to run the pipeline with the given priority
     from core.context_builder import global_job_scheduler
     global_job_scheduler.dispatch(orchestrator._run_pipeline, pipeline, priority=priority)
-    return RedirectResponse("/", status_code=302)
+    return redirect(url_for("dashboard"))
 
-@app.get("/pipelines")
-def list_pipelines(request: Request):
-    require_auth(request)
-    return list(orchestrator.pipelines.keys())
+@app.route("/pipelines", methods=["GET"])
+def list_pipelines():
+    require_auth()
+    from flask import jsonify
+    return jsonify(list(orchestrator.pipelines.keys()))

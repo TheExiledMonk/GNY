@@ -26,11 +26,16 @@ class PrioritizedJob:
     def __lt__(self, other):
         return self.priority < other.priority
 
+from services.config_manager import ConfigManager
+
 class JobScheduler:
     """
     JobScheduler with priority queue and pause/resume/stop for low priority jobs.
     """
-    def __init__(self, max_workers: int = 4, cpu_target: int = 80):
+    def __init__(self, max_workers: int = None, cpu_target: int = 80):
+        config = ConfigManager().get_global_config()
+        scheduler_cfg = (config or {}).get('system', {}).get('scheduler', {}) if config else {}
+        max_workers = max_workers or scheduler_cfg.get('max_workers', 8)
         self._queue = queue.PriorityQueue()
         self._threads = []
         self._max_workers = max_workers

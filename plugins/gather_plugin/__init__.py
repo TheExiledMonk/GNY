@@ -2,14 +2,10 @@
 Gather Plugin: Modular plugin for dynamic exchange/token selection using ccxt.
 """
 
-from fastapi import APIRouter
-from .config_ui import gather_config_router, handle_config_request
+from .config_ui import handle_config_request
 from .core import get_default_config, get_supported_exchanges, get_tokens_for_exchanges, get_stablecoins_for_exchanges
 import logging
 
-# Register the router for config UI
-router = APIRouter()
-router.include_router(gather_config_router, prefix="/config", tags=["gather_plugin_config"])
 
 def run(context, config, pipeline):
     """Main entry point for the gather plugin."""

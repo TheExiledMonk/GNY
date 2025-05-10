@@ -12,15 +12,23 @@ LOG_DIR = os.path.join(os.path.dirname(__file__), "..", "logs")
 LOG_FILE = os.path.join(LOG_DIR, "orchestrator.log")
 SLACK_WEBHOOK = os.environ.get("SLACK_WEBHOOK_URL")
 
+from threading import Lock
+
+_logger_instance = None
+_logger_lock = Lock()
+
 class UnifiedLogger:
     def __init__(self):
         os.makedirs(LOG_DIR, exist_ok=True)
         self.logger = logging.getLogger("orchestrator")
         self.logger.setLevel(logging.INFO)
-        handler = logging.handlers.RotatingFileHandler(LOG_FILE, maxBytes=5_000_000, backupCount=5)
-        formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
-        handler.setFormatter(formatter)
-        self.logger.addHandler(handler)
+        # Only add handler if it hasn't been added yet
+        if not any(isinstance(h, logging.handlers.RotatingFileHandler) and h.baseFilename == os.path.abspath(LOG_FILE)
+                   for h in self.logger.handlers):
+            handler = logging.handlers.RotatingFileHandler(LOG_FILE, maxBytes=5_000_000, backupCount=5)
+            formatter = logging.Formatter('%(asctime)s %(levelname)s %(message)s')
+            handler.setFormatter(formatter)
+            self.logger.addHandler(handler)
 
     def info(self, data: Dict[str, Any]):
         self.logger.info(json.dumps(data))
@@ -46,4 +54,8 @@ class UnifiedLogger:
             pass
 
 def get_logger():
-    return UnifiedLogger()
+    global _logger_instance
+    with _logger_lock:
+        if _logger_instance is None:
+            _logger_instance = UnifiedLogger()
+        return _logger_instance

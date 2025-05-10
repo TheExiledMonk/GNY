@@ -18,7 +18,7 @@ This checklist covers the steps needed to implement the aggregate_allmarkets plu
 - [ ] Ensure precise time alignment for all candles.
 
 ## 5. Modes
-- [ ] Support 'recent' mode: calculate only from the candles produced by fetcher (last 24h).
+- [ ] Support 'current' mode: calculate only from the candles produced by fetcher (last 24h).
 - [ ] Support 'historical' mode: calculate from all candles in the database.
 
 ## 6. Storage

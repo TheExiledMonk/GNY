@@ -6,11 +6,12 @@ pytest
 pyyaml
 requests
 pytest-asyncio
-fastapi
-uvicorn
+flask
 python-dotenv
 passlib[bcrypt]
 itsdangerous
 python-multipart
 Jinja2
 ccxt
+ta-lib
+APScheduler>=3.10.0

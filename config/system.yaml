@@ -5,4 +5,6 @@ system:
   slack:
     webhook_url: "https://hooks.slack.com/services/xxx"
     alert_on_levels: ["ERROR", "FATAL"]
+  scheduler:
+    max_workers: 8
 
